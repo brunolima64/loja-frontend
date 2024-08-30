@@ -10,9 +10,9 @@ export const Header = () => {
                 </Link>
                 <C.Menu>
                     <ul>
-                        <li>MINHA CONTA</li>
+                        <Link to={"/user/me"}><li>MINHA CONTA</li></Link>
                         <li>SAIR</li>
-                        <li className="post">FAZER UM POST</li>
+                        <Link to={"/item"}><li className="post">FAZER UM POST</li></Link>
                     </ul>
                 </C.Menu>
             </C.Header>

@@ -17,8 +17,7 @@ export const Container = styled.div`
 
 export const Image = styled.img`
     height: 250px;
-    background-size: cover;
-    background-position: center;
+    width: 100%;
 `;
 
 export const Title = styled.h3`

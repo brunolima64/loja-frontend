@@ -32,11 +32,12 @@ export const Container = styled.section`
 export const Categories = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
     width: 100%;
     background-color: #fff;
     margin-top: 20px;
     border-radius: 10px;
-    padding: 10px 20px;
+    padding: 30px;
 `;
 
 export const recentAds = styled.div`
