@@ -1,135 +1,167 @@
-import { Footer } from "../../components/Footer";
-import { Header } from "../../components/Header";
-import { useRef, useState } from "react";
 import * as C from "./styles";
+import { Header } from "../../components/Header";
+import { Footer } from "../../components/Footer";
+import { ShowAlert } from "../../components/ShowAlert";
 
-type ErrType = {
-    title: string;
-    state: string;
-    category: string;
-    images: string;
-}
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import { createAd, getCategories, getStates } from "../../Apis/api";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { StateType } from "../../types/StatesType";
+
+const schemaAd = z.object({
+    title: z.string().min(1, { message: "Obrigatório" }),
+    price: z.string({ message: "Obrigatório" }),
+    priceNeg: z.boolean().optional(),
+    desc: z.string().optional(),
+    state: z.string().min(1, { message: "Selecione um estado válido" }),
+    category: z.string().min(1, { message: "Selecione uma categoria válida" }),
+    images: z.instanceof(FileList, { message: "O campo deve ser uma lista de arquivos válida" })
+        .refine((files) => Array.from(files).length > 0, {
+            message: "Por favor, selecione pelo menos uma imagem.",
+        })
+        .refine((files) => Array.from(files).every(file => file instanceof File), {
+            message: "Todos os arquivos devem ser válidos.",
+        })
+});
 
 export const CreateAd = () => {
+    const userCtx = useContext(UserContext);
 
-    const [images, setImages] = useState([]);
-    const fileInputRef = useRef<HTMLInputElement>(null);
+    // bloqueia o acesso, caso o usuario não esteja logado.
+    if (!userCtx?.userLogged) {
+        window.location.href = "/";
+        return false;
+    };
 
-    const [title, setTitle] = useState("");
-    const [price, setPrice] = useState("");
-    const [desc, setDesc] = useState("");
-    const [state, setState] = useState("");
-    const [cat, setCat] = useState("");
-    const [priceNeg, setPriceNeg] = useState(false);
+    const [categories, setCategories] = useState<CategoryType[]>([]);
+    const [cities, setCities] = useState<StateType[]>([]);
 
-    const [err, setErr] = useState<ErrType | null>(null);
+    const [alertMsgSuccessOrError, setAlertMsgSuccessOrError] = useState("");
+    const [showSuccesOrError, setShowSuccesOrError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const formSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const { handleSubmit, register, formState: { errors } } = useForm({
+        resolver: zodResolver(schemaAd)
+    });
 
-        let images: any = [];
-        let errors: ErrType = {
-            title: "",
-            images: "",
-            category: "",
-            state: ""
-        };
+    // Pegar categories
+    useEffect(() => {
+        const getCats = async () => {
+            const res = await getCategories();
+            setCategories(res.categories);
+        }
+        getCats();
+    }, []);
 
-        if (fileInputRef.current?.files && fileInputRef.current.files.length > 0) {
-            const fileItem = fileInputRef.current.files;
-            const allowed = ["image/jpeg", "image/jpg", "image/png"];
+    // Pegar states
+    useEffect(() => {
+        const getCities = async () => {
+            const res = await getStates();
+            setCities(res.states);
+        }
+        getCities();
+    }, []);
 
-            for (let i in fileItem) {
-                if (allowed.includes(fileItem[i].type)) {
-                    images.push(fileItem[i]);
-                }
-                setImages(images);
-            }
+    // formulario
+    const formSubmit = async (data: any) => {
+        setIsLoading(true);
+        const token = userCtx?.userLogged.token;
+
+        const newAd = await createAd({
+            idUser: userCtx?.userLogged._id,
+            title: data.title,
+            state: data.state,
+            category: data.category,
+            description: data.desc,
+            price: data.price,
+            priceNeg: data.priceNeg,
+            images: data.images,
+        }, token);
+
+        setIsLoading(false);
+        setShowSuccesOrError(true);
+
+        // verifica se o item foi adicionado com sucesso
+        if (!newAd) {
+            setAlertMsgSuccessOrError("error");
+        } else {
+            setAlertMsgSuccessOrError("success");
         }
 
-        // verificar dados e prencher os possiveis erros
-        if (images.length === 0) {
-            errors.images = "Pelos menos um arquivo precisa ser enviado!"
-        }
-
-        if (!title) {
-            errors.title = "Obrigatório!";
-        }
-
-        if (!state) {
-            errors.state = "Obrigatório!";
-        }
-
-        if (!cat) {
-            errors.category = "Obrigatório!";
-        }
-
-        if (!price && !priceNeg) {
-            setPriceNeg(true);
-        }
-
-        // setar erros de dados invalidos do form
-        setErr({
-            title: errors.title,
-            images: errors.images,
-            category: errors.category,
-            state: errors.state
-        });
+        setTimeout(() => {
+            setShowSuccesOrError(false);
+            setAlertMsgSuccessOrError("");
+        }, 3000);
     }
 
     return (
         <C.PageContainer>
+            {showSuccesOrError &&
+                <ShowAlert
+                    text={alertMsgSuccessOrError === "success" ? "Sucesso!" : "Erro!"}
+                    img={alertMsgSuccessOrError === "success" ?
+                        "public/assets/images/succes.jpg" :
+                        "public/assets/images/error.jpg"}
+                />
+            }
             <Header />
             <C.Container>
                 <h2>Adicionar novo post:</h2>
-                <form onSubmit={formSubmit}>
+                <C.Form onSubmit={handleSubmit(formSubmit)}>
                     <C.InputArea>
                         <label>Selecione suas imagens:</label>
-                        <input type="file" ref={fileInputRef} multiple />
-                        {err && err.images &&
-                            <C.MessageError>{err.images}</C.MessageError>}
+                        <input type="file" multiple {...register("images")} />
+                        {errors.images && <C.MsgError>{errors.images.message as string}</C.MsgError>}
                     </C.InputArea>
+
                     <C.InputArea>
                         <label>Titulo:</label>
                         <input
                             placeholder="Digite um titulo"
-                            value={title}
-                            onChange={e => setTitle(e.target.value)}
+                            {...register("title")}
                         />
-                        {err && err.title !== "" &&
-                            <C.MessageError>{err.title}</C.MessageError>}
+                        {errors.title && <C.MsgError>{errors.title.message as string}</C.MsgError>}
                     </C.InputArea>
+
                     <C.InputArea>
                         <label>Descrição:</label>
                         <input
                             placeholder="Digite uma descrição"
-                            value={desc}
-                            onChange={e => setDesc(e.target.value)}
+                            {...register("desc")}
                         />
                     </C.InputArea>
+
                     <C.InputArea>
                         <label>Estado:</label>
-                        <select name="" id="">
-                            <option value="SP">SP</option>
+                        <select id="state" {...register("state")}>
+                            <option value=""></option>
+                            {cities && cities.map((it) => (
+                                <option key={it._id} value={it.name}>{it.name}</option>
+                            ))}
                         </select>
-                        {err && err.state &&
-                            <C.MessageError>{err.state}</C.MessageError>}
+                        {errors.state && <C.MsgError>{errors.state.message as string}</C.MsgError>}
                     </C.InputArea>
+
                     <C.InputArea>
                         <label>Categoria:</label>
-                        <select name="" id="">
-                            <option value="0">Esportes</option>
+                        <select id="category" {...register("category")}>
+                            <option value=""></option>
+                            {categories && categories.map((it) => (
+                                <option key={it._id} value={it.name}>{it.name}</option>
+                            ))}
                         </select>
-                        {err && err.category &&
-                            <C.MessageError>{err.category}</C.MessageError>}
+                        {errors.category && <C.MsgError>{errors.category.message as string}</C.MsgError>}
                     </C.InputArea>
+
                     <C.InputArea>
                         <label>Preço:</label>
                         <input
                             type="number"
                             placeholder="Qual vai ser o preço?"
-                            value={price}
-                            onChange={e => setPrice(e.target.value)}
+                            {...register("price")}
                         />
                     </C.InputArea>
 
@@ -137,16 +169,19 @@ export const CreateAd = () => {
                         <input
                             className="checkbox"
                             type="checkbox"
-                            checked={priceNeg}
-                            onChange={() => setPriceNeg(!priceNeg)}
+                            {...register("priceNeg")}
                         />
                         <label>Preço é negociável?</label>
                     </C.Check>
 
                     <C.BtnArea>
-                        <input type="submit" className="button" />
+                        <input
+                            type="submit"
+                            className="button"
+                            value={isLoading ? "adicionando..." : "adicionar"}
+                        />
                     </C.BtnArea>
-                </form>
+                </C.Form>
             </C.Container>
             <Footer />
         </C.PageContainer>

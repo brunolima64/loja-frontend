@@ -1,7 +1,10 @@
 export type Ad = {
-    albumId: number;
-    id: number;
+    idUser: string;
     title: string;
-    url: string;
-    thumbnailUrl: string;
+    state: string;
+    category: string;
+    description: string;
+    price: string;
+    priceNeg: boolean;
+    images: any;
 }

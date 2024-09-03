@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PageContainer = styled.div`
-    width: 100vw;
+    width: 100vw; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,39 +9,42 @@ export const PageContainer = styled.div`
 `;
 
 export const Container = styled.div`
-    width: 1000px;
+    width: 600px; 
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     flex-direction: column;
-    margin: 30px 0;
+    margin: 60px 0;
+    background-color: #fff;
+    padding: 20px 40px;
+    border-radius: 6px;
 
     h2 {
-        border-bottom: 1px solid gray;
+        border-bottom: 1px solid #bebebe;
         padding: 10px 0;
-        margin-bottom: 10px;
+        margin-bottom: 10px; 
     }
-    
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 20px;
+`;
 
-        input {
-            padding: 10px 20px;
-            border-radius: 6px;
-            outline: none;
-            border: 1px solid gray;
-            width: 500px;
-        }
+export const Form = styled.form`
+    display: flex; 
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
 
-        select {
-            padding: 10px 20px;
-            border-radius: 6px;
-            outline: none;
-            border: 1px solid gray;
-            width: 150px;
-        }
+    input {
+        padding: 10px 20px;
+        border-radius: 6px;
+        outline: none;
+        border: 1px solid gray;
+        width: 100%;
+    }
+
+    select {
+        padding: 10px 20px;
+        border-radius: 6px;
+        outline: none;
+        border: 1px solid gray;
+        width: 150px;
     }
 `;
 
@@ -91,7 +94,7 @@ export const BtnArea = styled.div`
     }
 `;
 
-export const MessageError = styled.p`
+export const MsgError = styled.p`
     font-size: 14px;
     color: red;
     margin: 5px 0;

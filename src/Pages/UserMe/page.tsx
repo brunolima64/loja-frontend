@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import * as C from "./styles";
+import { UserContext } from "../../contexts/UserContext";
 
 export const UserMe = () => {
+    const userCtx = useContext(UserContext);
+
     return (
         <C.PageContainer>
             <Header />
@@ -15,8 +19,8 @@ export const UserMe = () => {
                         />
                     </C.ImgArea>
                     <C.InfoArea>
-                        <p><strong>Usuario:</strong></p>
-                        <p><strong>email:</strong> </p>
+                        <p><strong>Usuario: </strong>{userCtx?.userLogged && userCtx?.userLogged.name}</p>
+                        <p><strong>email: </strong>{userCtx?.userLogged && userCtx?.userLogged.email}</p>
                         <p><strong>senha:</strong></p>
                     </C.InfoArea>
                 </C.InfoUser>

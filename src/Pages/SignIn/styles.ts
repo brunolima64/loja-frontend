@@ -8,30 +8,34 @@ justify-content: center;
 align-items: center;
 `;
 
-export const TitleArea = styled.div`
-    width: 300px;
-    margin-bottom: 20px;
-    
-    h1 {
-        color: #2e292e;
-    }
-`;
-
-export const InputArea = styled.div`
-width: 400px;
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
+export const FormArea = styled.div`
 background-color: #fff;
 border-radius: 10px;
-padding: 30px 10px;
+`;
+
+export const Title = styled.h2`
+    background-color: #f35038; 
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 100%; 
+    padding: 30px; 
+    color: #fff;
+`;
+
+export const Form = styled.form`
+width: 500px;
+display: flex;
+justify-content: center;
+align-items: left;
+flex-direction: column;
+padding: 30px;
 
 a {
+    text-align: center;
     text-decoration: none;
     color: #f35038;
     font-size: 14px;
-    margin-top: 20px;
+    margin-top: 40px;
 
     &:hover {
         color: #f98465;
@@ -40,23 +44,25 @@ a {
 `;
 
 export const Input = styled.input`
-    width: 300px;
-    padding: 10px 15px;
-    border-radius: 6px;
-    border: 1px solid #eee;
-    outline: 0;
-    margin: 10px 0px;
+width: 100%;
+border: 0;
+outline: 0;
+padding: 10px 15px;
+border-bottom: 1px solid #a0a0a0;
+margin-top: 20px;
+margin-bottom: 5px;
 `;
+
 
 export const ButtonArea = styled.div`
-    width: 300px;
+    width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: end; 
+    margin-top: 30px;
 `;
 
-export const Button = styled.button`
+export const Button = styled.input`
     width: 100px;
-    margin-top: 20px;
     border: 0;
     background-color: #f35038;
     padding: 10px 15px;
@@ -68,4 +74,10 @@ export const Button = styled.button`
     &:hover {
         opacity: .9;
     }
+`;
+
+export const msgError = styled.p`
+    padding: 0 10px;
+    font-size: 13px;
+    color: red;
 `;

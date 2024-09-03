@@ -1,30 +1,66 @@
+import { useContext, useState } from "react";
 import * as C from "./styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getUser } from "../../Apis/api";
+import { UserContext } from "../../contexts/UserContext";
 
 export const SignIn = () => {
+    const userCtx = useContext(UserContext);
+    const navigate = useNavigate();
+
+    const [emailField, setEmailField] = useState("");
+    const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [messageError, setMessageError] = useState("");
+
+
+    const userLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        let data = {
+            email: emailField,
+            passwordHash: password
+        }
+
+        const user = await getUser(data);
+        if (user.user) {
+            userCtx?.setUserLogged(user.user);
+            setMessageError("");
+            navigate("/")
+        } else {
+            setMessageError("Email ou senha inválidos");
+        }
+
+    }
 
     return (
         <C.PageContainer>
-            <C.InputArea>
-                <C.TitleArea>
-                    <h1>Bem-vindo(a) de Volta!</h1>
-                </C.TitleArea>
-                <C.Input
-                    type="email"
-                    placeholder="Digite seu e-mail"
-                    autoFocus={true}
-                />
-                <C.Input
-                    type="password"
-                    placeholder="Digite sua senha"
+            <C.FormArea>
+                <C.Title>Bem vindo de volta(o)</C.Title>
+                <C.Form onSubmit={userLogin}>
+                    <C.Input
+                        type="email"
+                        placeholder="Digite seu e-mail"
+                        value={emailField}
+                        onChange={e => setEmailField(e.target.value)}
+                    />
+                    {<C.msgError>{messageError}</C.msgError>}
 
-                />
+                    <C.Input
+                        type="password"
+                        placeholder="Digite sua senha"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                    {<C.msgError>{messageError}</C.msgError>}
 
-                <C.ButtonArea>
-                    <C.Button>Entrar</C.Button>
-                </C.ButtonArea>
-                <Link to="/signup">Ainda não é um usúario? Cadastrar-se</Link>
-            </C.InputArea>
+                    <C.ButtonArea>
+                        <C.Button type="submit" value="Entrar" />
+                    </C.ButtonArea>
+
+                    <Link to="/signup">ainda não é um usúario? cadastrar-se</Link>
+                </C.Form>
+            </C.FormArea>
         </C.PageContainer>
     )
 }
