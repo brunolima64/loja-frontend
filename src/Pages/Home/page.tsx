@@ -60,7 +60,11 @@ export const Home = () => {
 
                 <C.recentAds>
                     {ads.length > 0 && ads.map((it, i) => (
-                        <AdItem key={i} data={it} onClick={handleAdClick} />
+                        <AdItem
+                            key={i}
+                            data={it}
+                            onClick={() => handleAdClick}
+                        />
                     ))}
                 </C.recentAds>
 

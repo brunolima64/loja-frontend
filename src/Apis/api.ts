@@ -1,4 +1,5 @@
 import { Ad } from "../types/Ad";
+import { CreateAdType } from "../types/CreateAdType";
 import { UserType } from "../types/UserType";
 
 export const getStates = async () => {
@@ -29,22 +30,53 @@ export const getOneAd = async (id: string) => {
     return json;
 }
 
-export const createAd = async (data: Ad, token: string) => {
+export const createAd = async (data: CreateAdType, token: string) => {
 
     const formData = new FormData();
 
-    formData.append("idUser", data.idUser);
-    formData.append("title", data.title);
-    formData.append("category", data.category);
-    formData.append("state", data.state);
-    formData.append("description", data.description);
-    formData.append("price", data.price.toString());
+    if (data.idUser) formData.append("idUser", data.idUser);
+    if (data.title) formData.append("title", data.title);
+    if (data.category) formData.append("category", data.category);
+    if (data.state) formData.append("state", data.state);
+    if (data.description) formData.append("description", data.description);
+    if (data.price) formData.append("price", data.price.toString());
+    if (data.priceNeg) formData.append("priceNeg", data.priceNeg.toString());
 
-    for (let i in data.images) {
-        formData.append(`images`, data.images[i]);
+    if (data.images) {
+        for (let i in data.images) {
+            formData.append(`images`, data.images[i]);
+        }
     }
 
     const res = await fetch("https://loja-backend-2-da6b.onrender.com/item", {
+        method: "POST",
+        headers: {
+            'authorization': token
+        },
+        body: formData,
+    })
+
+    return await res.json();
+}
+
+export const updateAd = async (data: Ad, token: string) => {
+
+    const formData = new FormData();
+
+    if (data.title) formData.append("title", data.title);
+    if (data.category) formData.append("category", data.category);
+    if (data.state) formData.append("state", data.state);
+    if (data.description) formData.append("description", data.description);
+    if (data.price) formData.append("price", data.price.toString());
+    if (data.priceNeg) formData.append("priceNeg", data.priceNeg.toString());
+
+    if (data.images) {
+        for (let i in data.images) {
+            formData.append(`images`, data.images[i]);
+        }
+    }
+
+    const res = await fetch(`https://loja-backend-2-da6b.onrender.com/item/${data._id}`, {
         method: "POST",
         headers: {
             'authorization': token

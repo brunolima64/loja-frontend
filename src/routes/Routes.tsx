@@ -6,7 +6,6 @@ import { Home } from "../Pages/Home/page";
 import { Ad } from "../Pages/Ad/page";
 import { UserMe } from "../Pages/UserMe/page";
 import { CreateAd } from "../Pages/CreateAd/page";
-import { UpdateAd } from "../Pages/UpdateAd/page";
 
 export const Routes = () => {
     return useRoutes([
@@ -15,7 +14,6 @@ export const Routes = () => {
         { path: "/signin", element: <SignIn /> },
         { path: "/user/me", element: <UserMe /> },
         { path: "/item", element: <CreateAd /> },
-        { path: "/item/:id", element: <UpdateAd /> },
         { path: "/item/:id", element: <Ad /> },
         { path: "*", element: <NotFound /> },
     ])

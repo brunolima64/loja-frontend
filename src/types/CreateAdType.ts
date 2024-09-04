@@ -1,5 +1,4 @@
-export type Ad = {
-    _id: string;
+export type CreateAdType = {
     idUser?: string;
     title?: string;
     state?: string;
@@ -8,6 +7,4 @@ export type Ad = {
     price?: number;
     priceNeg?: boolean;
     images?: FileList | undefined;
-    dateCreated?: string;
-    views?: number;
 }

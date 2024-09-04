@@ -1,41 +1,55 @@
-import * as C from "./styles";
-import { Header } from "../../components/Header";
-import { Footer } from "../../components/Footer";
-import { ShowAlert } from "../../components/ShowAlert";
-
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../contexts/UserContext";
-import { createAd, getCategories, getStates } from "../../Apis/api";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import * as C from "./styles";
+import { getCategories, getStates, updateAd } from "../../Apis/api";
 import { StateType } from "../../types/StatesType";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { UserContext } from "../../contexts/UserContext";
+import { z } from "zod";
+import { Ad } from "../../types/Ad";
+import { useNavigate } from "react-router-dom";
+import { ShowAlert } from "../ShowAlert";
 
 const schemaAd = z.object({
-    title: z.string().min(1, { message: "Obrigatório" }),
-    price: z.number({ message: "Obrigatório" }),
+    title: z.string().optional(),
+    price: z.number().optional(),
     priceNeg: z.boolean().optional(),
     desc: z.string().optional(),
-    state: z.string().min(1, { message: "Selecione um estado válido" }),
-    category: z.string().min(1, { message: "Selecione uma categoria válida" }),
-    images: z.instanceof(FileList, { message: "O campo deve ser uma lista de arquivos válida" })
-        .refine((files) => Array.from(files).length > 0, {
-            message: "Por favor, selecione pelo menos uma imagem.",
+    state: z.string().optional(),
+    category: z.string().optional(),
+    images: z
+        .instanceof(FileList, { message: "O campo deve ser uma lista de arquivos válida" })
+        .refine(files => files.length === 0 || Array.from(files).every(file => file instanceof File), {
+            message: "Todos os arquivos devem ser válidos ou o campo deve ser vazio.",
         })
-        .refine((files) => Array.from(files).every(file => file instanceof File), {
-            message: "Todos os arquivos devem ser válidos.",
-        })
+        .optional(),
 });
 type AdChemaType = z.infer<typeof schemaAd>;
 
-export const CreateAd = () => {
-    const userCtx = useContext(UserContext);
+type Props = {
+    item: Ad;
+    setAdSelected: (ad: Ad | undefined) => void;
+    setShowModalUpdateAd: (b: boolean) => void;
+}
+export const UpdateAd = ({ item, setAdSelected, setShowModalUpdateAd }: Props) => {
 
-    // bloqueia o acesso, caso o usuario não esteja logado.
-    if (!userCtx?.userLogged) {
-        window.location.href = "/";
-        return false;
+    const adOriginalValues = {
+        title: item.title,
+        state: item.state,
+        category: item.category,
+        price: item.price,
+        priceNeg: item.priceNeg,
+        desc: item.description,
+        images: undefined
     };
+
+    const { handleSubmit, register, formState: { errors } } = useForm<AdChemaType>({
+        resolver: zodResolver(schemaAd),
+        defaultValues: adOriginalValues
+    });
+
+    const userCtx = useContext(UserContext);
+    const navigate = useNavigate();
 
     const [categories, setCategories] = useState<CategoryType[]>([]);
     const [cities, setCities] = useState<StateType[]>([]);
@@ -43,10 +57,6 @@ export const CreateAd = () => {
     const [alertMsgSuccessOrError, setAlertMsgSuccessOrError] = useState("");
     const [showSuccesOrError, setShowSuccesOrError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-    const { handleSubmit, register, formState: { errors } } = useForm<AdChemaType>({
-        resolver: zodResolver(schemaAd)
-    });
 
     // Pegar categories
     useEffect(() => {
@@ -66,13 +76,13 @@ export const CreateAd = () => {
         getCities();
     }, []);
 
-    // formulario
+    // formulario 
     const formSubmit = async (data: AdChemaType) => {
         setIsLoading(true);
         const token = userCtx?.userLogged.token;
 
-        const newAd = await createAd({
-            idUser: userCtx?.userLogged._id,
+        const updatedAd = await updateAd({
+            _id: item._id,
             title: data.title,
             state: data.state,
             category: data.category,
@@ -85,21 +95,22 @@ export const CreateAd = () => {
         setIsLoading(false);
         setShowSuccesOrError(true);
 
-        // verifica se o item foi adicionado com sucesso
-        if (!newAd) {
+        // verifica se o item foi adicionado com sucesso e exibe um alert.
+        if (!updatedAd) {
             setAlertMsgSuccessOrError("error");
         } else {
             setAlertMsgSuccessOrError("success");
         }
 
         setTimeout(() => {
-            setShowSuccesOrError(false);
-            setAlertMsgSuccessOrError("");
-        }, 3000);
+            setShowSuccesOrError(false); // fecha o alert
+            setAlertMsgSuccessOrError(""); // limpa a mensagem de alerta
+            setShowModalUpdateAd(false); // fecha o modal
+            setAdSelected(undefined); // Limpa o item do modal
+        }, 1000);
     }
-
     return (
-        <C.PageContainer>
+        <C.Container>
             {showSuccesOrError &&
                 <ShowAlert
                     text={alertMsgSuccessOrError === "success" ? "Sucesso!" : "Erro!"}
@@ -108,9 +119,8 @@ export const CreateAd = () => {
                         "public/assets/images/error.jpg"}
                 />
             }
-            <Header />
-            <C.Container>
-                <h2>Adicionar novo post:</h2>
+            <C.InfoArea>
+                <h2>Editar post: </h2>
                 <C.Form onSubmit={handleSubmit(formSubmit)}>
                     <C.InputArea>
                         <label>Selecione suas imagens:</label>
@@ -179,12 +189,11 @@ export const CreateAd = () => {
                         <input
                             type="submit"
                             className="button"
-                            value={isLoading ? "adicionando..." : "adicionar"}
+                            value={isLoading ? "atualizando..." : "atualizar"}
                         />
                     </C.BtnArea>
                 </C.Form>
-            </C.Container>
-            <Footer />
-        </C.PageContainer>
+            </C.InfoArea>
+        </C.Container>
     )
 }

@@ -5,7 +5,7 @@ export const PageContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: column; 
 `;
 
 export const Container = styled.div`
@@ -19,7 +19,7 @@ export const InfoUser = styled.div`
     display: flex;
     margin:  40px 0;
     padding: 30px 0;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #bebebe;
 `;
 
 export const ImgArea = styled.div`
@@ -42,4 +42,13 @@ export const InfoArea = styled.div`
     gap: 15px;
 `;
 
-export const AdsUser = styled.div``;
+export const Info = styled.div`
+
+`;
+
+export const AdsUser = styled.div`
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 30px 0;
+`;
