@@ -7,8 +7,7 @@ import { useForm } from "react-hook-form";
 import { UserContext } from "../../contexts/UserContext";
 import { z } from "zod";
 import { Ad } from "../../types/Ad";
-import { useNavigate } from "react-router-dom";
-import { ShowAlert } from "../ShowAlert";
+import { AlertContext } from "../../contexts/AlertContext";
 
 const schemaAd = z.object({
     title: z.string().optional(),
@@ -49,13 +48,10 @@ export const UpdateAd = ({ item, setAdSelected, setShowModalUpdateAd }: Props) =
     });
 
     const userCtx = useContext(UserContext);
-    const navigate = useNavigate();
+    const alertCtx = useContext(AlertContext);
 
     const [categories, setCategories] = useState<CategoryType[]>([]);
     const [cities, setCities] = useState<StateType[]>([]);
-
-    const [alertMsgSuccessOrError, setAlertMsgSuccessOrError] = useState("");
-    const [showSuccesOrError, setShowSuccesOrError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     // Pegar categories
@@ -93,32 +89,32 @@ export const UpdateAd = ({ item, setAdSelected, setShowModalUpdateAd }: Props) =
         }, token);
 
         setIsLoading(false);
-        setShowSuccesOrError(true);
 
         // verifica se o item foi adicionado com sucesso e exibe um alert.
         if (!updatedAd) {
-            setAlertMsgSuccessOrError("error");
+            alertCtx?.setAlertMsg("error");
         } else {
-            setAlertMsgSuccessOrError("success");
+            alertCtx?.setAlertMsg("success");
         }
 
+        setShowModalUpdateAd(false); // fecha o modal 
+        setAdSelected(undefined); // Limpa o item do modal
+
         setTimeout(() => {
-            setShowSuccesOrError(false); // fecha o alert
-            setAlertMsgSuccessOrError(""); // limpa a mensagem de alerta
-            setShowModalUpdateAd(false); // fecha o modal
-            setAdSelected(undefined); // Limpa o item do modal
-        }, 1000);
+            alertCtx?.setAlertMsg(""); // limpa a mensagem de alerta
+        }, 5000);
     }
+
+
+    // close the modal
+    const closedModalBtn = () => {
+        setShowModalUpdateAd(false);
+        setAdSelected(undefined); // Limpa o item do modal
+    }
+
     return (
         <C.Container>
-            {showSuccesOrError &&
-                <ShowAlert
-                    text={alertMsgSuccessOrError === "success" ? "Sucesso!" : "Erro!"}
-                    img={alertMsgSuccessOrError === "success" ?
-                        "public/assets/images/succes.jpg" :
-                        "public/assets/images/error.jpg"}
-                />
-            }
+            <C.BackGround onClick={closedModalBtn}></C.BackGround>
             <C.InfoArea>
                 <h2>Editar post: </h2>
                 <C.Form onSubmit={handleSubmit(formSubmit)}>
@@ -186,6 +182,7 @@ export const UpdateAd = ({ item, setAdSelected, setShowModalUpdateAd }: Props) =
                     </C.Check>
 
                     <C.BtnArea>
+                        <C.CancelBtn onClick={closedModalBtn}>cancelar</C.CancelBtn>
                         <input
                             type="submit"
                             className="button"

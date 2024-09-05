@@ -1,5 +1,16 @@
 import styled from "styled-components";
 
+export const BackGround = styled.div`
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;   
+    background-color: black; 
+    position: fixed;
+    z-index: 33;
+    opacity: .8;
+`;
+
 export const Container = styled.div`
     top: 0;
     bottom: 0;
@@ -8,8 +19,8 @@ export const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center; 
-    background-color: black; 
-    position: fixed; 
+    position: fixed;   
+    z-index: 999;
 `;
 
 export const InfoArea = styled.div`
@@ -21,6 +32,8 @@ export const InfoArea = styled.div`
     background-color: #fff;
     padding: 20px 40px;
     border-radius: 6px; 
+    position: fixed;
+    z-index: 999;
 
     h2 {
         border-bottom: 1px solid #bebebe;
@@ -81,7 +94,7 @@ export const BtnArea = styled.div`
     width: 500px;
     display: flex;
     align-items: end; 
-    justify-content: end;
+    justify-content: space-between;
 
     .button {
         cursor: pointer;
@@ -89,12 +102,28 @@ export const BtnArea = styled.div`
         color: #fff;
         padding: 10px 20px;
         border: 0;
-        margin-top:20px;
-        width: 200px;
+        margin-top: 30px;
+        width: auto;
+        border-radius: 6px;
 
         &:hover{
-            opacity: .8;
+            opacity: .8; 
+            box-shadow: 1px 1px 10px blue;
         }
+    }
+`;
+
+export const CancelBtn = styled.button`
+    cursor: pointer;
+    background-color: #fff; 
+    padding: 10px 20px;
+    border: 0;
+    width: 100px;
+    border-radius: 6px;
+
+    &:hover{
+        opacity: .8;
+        box-shadow: 1px 1px 10px black;
     }
 `;
 

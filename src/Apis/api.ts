@@ -40,7 +40,7 @@ export const createAd = async (data: CreateAdType, token: string) => {
     if (data.state) formData.append("state", data.state);
     if (data.description) formData.append("description", data.description);
     if (data.price) formData.append("price", data.price.toString());
-    if (data.priceNeg) formData.append("priceNeg", data.priceNeg.toString());
+    if (data.priceNeg) formData.append("priceNeg", data.priceNeg.toString()); // corrijir
 
     if (data.images) {
         for (let i in data.images) {

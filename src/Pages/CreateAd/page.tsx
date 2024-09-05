@@ -1,7 +1,6 @@
 import * as C from "./styles";
 import { Header } from "../../components/Header";
 import { Footer } from "../../components/Footer";
-import { ShowAlert } from "../../components/ShowAlert";
 
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
@@ -10,6 +9,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StateType } from "../../types/StatesType";
+import { AlertContext } from "../../contexts/AlertContext";
 
 const schemaAd = z.object({
     title: z.string().min(1, { message: "Obrigatório" }),
@@ -30,6 +30,7 @@ type AdChemaType = z.infer<typeof schemaAd>;
 
 export const CreateAd = () => {
     const userCtx = useContext(UserContext);
+    const alertCtx = useContext(AlertContext);
 
     // bloqueia o acesso, caso o usuario não esteja logado.
     if (!userCtx?.userLogged) {
@@ -40,8 +41,6 @@ export const CreateAd = () => {
     const [categories, setCategories] = useState<CategoryType[]>([]);
     const [cities, setCities] = useState<StateType[]>([]);
 
-    const [alertMsgSuccessOrError, setAlertMsgSuccessOrError] = useState("");
-    const [showSuccesOrError, setShowSuccesOrError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const { handleSubmit, register, formState: { errors } } = useForm<AdChemaType>({
@@ -83,31 +82,21 @@ export const CreateAd = () => {
         }, token);
 
         setIsLoading(false);
-        setShowSuccesOrError(true);
 
         // verifica se o item foi adicionado com sucesso
         if (!newAd) {
-            setAlertMsgSuccessOrError("error");
+            alertCtx?.setAlertMsg("error");
         } else {
-            setAlertMsgSuccessOrError("success");
+            alertCtx?.setAlertMsg("success");
         }
 
         setTimeout(() => {
-            setShowSuccesOrError(false);
-            setAlertMsgSuccessOrError("");
-        }, 3000);
+            alertCtx?.setAlertMsg("");
+        }, 5000);
     }
 
     return (
         <C.PageContainer>
-            {showSuccesOrError &&
-                <ShowAlert
-                    text={alertMsgSuccessOrError === "success" ? "Sucesso!" : "Erro!"}
-                    img={alertMsgSuccessOrError === "success" ?
-                        "public/assets/images/succes.jpg" :
-                        "public/assets/images/error.jpg"}
-                />
-            }
             <Header />
             <C.Container>
                 <h2>Adicionar novo post:</h2>

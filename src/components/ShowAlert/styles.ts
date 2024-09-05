@@ -1,23 +1,39 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-export const Container = styled.div`
-    height: 90vh;
-    width: 100vw;
+const slideIn = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
+
+type alertMsg = {
+    variante: string;
+};
+export const Container = styled.div` 
+    bottom: 30px;
+    right: 30px;
     display: flex;
     justify-content: center; 
-    position: absolute;
+    position: fixed;
+    z-index: 1001;
 `;
-export const Alert = styled.div`
+export const Alert = styled.div<alertMsg>`
     width: 300px;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    border-radius: 6px;
-    border: 1px solid gray;
+    border: 1px solid #bebebe;
     background-color: #fff;
-    box-shadow: 1px 1px 20px gray;
+    box-shadow: 1px 1px 20px gray; 
+    border-left: 4px solid ${(props) => props.variante === 'success' ? 'green' : 'red'};
+    animation: ${slideIn} 1s ease-out;
 `;
 
 export const Text = styled.div`
