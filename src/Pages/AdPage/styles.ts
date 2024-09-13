@@ -17,29 +17,26 @@ export const Container = styled.section`
 
 export const ProdInfos = styled.div`
     display: flex;
-    margin: 30px 0px;
+    margin: 70px 0px;
+    width: 100%;
 `;
 
-export const Left = styled.div`
-    display: flex;
-    flex: 1;
+export const Left = styled.div` 
+    display: flex; 
     background-color: #fff;
-    box-shadow: 1px 1px 10px gray;
+    box-shadow: 1px 1px 10px #bebebe;
     margin-right: 20px;
 `;
 
-export const imageArea = styled.div`
-    width: 500px;
-    
+export const ImageArea = styled.div`  
     img {
-        width: 100%;
+        width: 400px;
         height: 100%;
-        background-size: cover;
-        background-position: center;
     }
 `;
 
-export const InfoArea = styled.div`
+export const InfoArea = styled.div` 
+    width: 350px;
     padding: 20px;
 
     p {
@@ -47,7 +44,24 @@ export const InfoArea = styled.div`
     }
 `;
 
+export const Infos = styled.div`
+    margin: 20px 0;
+`;
+
+export const Info = styled.div`
+    display: flex;
+    align-items: center; 
+    color: gray;
+    margin-bottom: 10px;
+
+    h4 {  
+        color: black;
+        margin-right: 5px; 
+    }
+`;
+
 export const Title = styled.div`
+    word-wrap: break-word;
     font-size: 22px;
     font-weight: 700;
 
@@ -57,7 +71,7 @@ export const Title = styled.div`
 `;
 
 export const Right = styled.div`
-    width: 250px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -115,6 +129,9 @@ export const DateCreated = styled.div`
     margin-top: 10px;
 `;
 
-export const Others = styled.div`
-    margin-top: 10px;
+export const OthersAds = styled.div`
+    margin: 30px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 `;

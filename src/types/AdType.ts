@@ -1,4 +1,4 @@
-export type Ad = {
+export type AdType = {
     _id: string;
     idUser?: string;
     title?: string;

@@ -1,4 +1,4 @@
-import { Ad } from "../types/Ad";
+import { AdType } from "../types/AdType";
 import { CreateAdType } from "../types/CreateAdType";
 import { UserType } from "../types/UserType";
 
@@ -15,6 +15,7 @@ export const getCategories = async () => {
 
     return json;
 }
+
 
 export const getAllAds = async () => {
     const res = await fetch("https://loja-backend-2-da6b.onrender.com/item")
@@ -59,7 +60,7 @@ export const createAd = async (data: CreateAdType, token: string) => {
     return await res.json();
 }
 
-export const updateAd = async (data: Ad, token: string) => {
+export const updateAd = async (data: AdType, token: string) => {
 
     const formData = new FormData();
 
@@ -115,6 +116,15 @@ export const getUser = async (data: UserType) => {
 
 export const updateUser = async (id: string) => {
     const res = await fetch("https://loja-backend-2-da6b.onrender.com/user/me" + id)
+    const json = await res.json();
+
+    return json;
+}
+
+export const search = async (query: any) => {
+    const queryString = new URLSearchParams(query).toString();
+
+    const res = await fetch("https://loja-backend-2-da6b.onrender.com/item?" + queryString);
     const json = await res.json();
 
     return json;

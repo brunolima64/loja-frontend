@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import './App.css';
 import { ShowAlert } from './components/ShowAlert';
-import { AdCtxProvider } from './contexts/AdCtx';
-import { UserContextProvider } from './contexts/UserContext';
 import { Routes } from './routes/Routes';
 import * as C from "./styles";
-import { AlertContext, AlertContextProvider } from './contexts/AlertContext';
+import { AlertContext } from './contexts/AlertContext';
 
 export const App = () => {
 	const alertCtx = useContext(AlertContext);

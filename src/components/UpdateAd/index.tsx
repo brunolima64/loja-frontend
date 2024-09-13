@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import * as C from "./styles";
 import { getCategories, getStates, updateAd } from "../../Apis/api";
-import { StateType } from "../../types/StatesType";
+import { StateType } from "../../types/StateType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { UserContext } from "../../contexts/UserContext";
 import { z } from "zod";
-import { Ad } from "../../types/Ad";
+import { Ad } from "../../types/AdType";
 import { AlertContext } from "../../contexts/AlertContext";
 
 const schemaAd = z.object({

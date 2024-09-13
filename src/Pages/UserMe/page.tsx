@@ -4,8 +4,8 @@ import { Header } from "../../components/Header";
 import * as C from "./styles";
 import { UserContext } from "../../contexts/UserContext";
 import { getAllAds } from "../../Apis/api";
-import { AdItem } from "../../components/AdItem";
-import { Ad } from "../../types/Ad";
+import { AdItem } from "../../components/AdUser";
+import { Ad } from "../../types/AdType";
 import { UpdateAd } from "../../components/UpdateAd";
 
 export const UserMe = () => {

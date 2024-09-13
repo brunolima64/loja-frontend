@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as C from "./styles";
 import { Link } from "react-router-dom";
 import { createUser, getStates } from "../../Apis/api";
-import { StateType } from "../../types/StatesType";
+import { StateType } from "../../types/StateType";
 
 export const SignUp = () => {
 

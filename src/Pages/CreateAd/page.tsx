@@ -8,7 +8,7 @@ import { createAd, getCategories, getStates } from "../../Apis/api";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { StateType } from "../../types/StatesType";
+import { StateType } from "../../types/StateType";
 import { AlertContext } from "../../contexts/AlertContext";
 
 const schemaAd = z.object({
