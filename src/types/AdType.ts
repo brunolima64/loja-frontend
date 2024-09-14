@@ -10,4 +10,5 @@ export type AdType = {
     images?: FileList | undefined;
     dateCreated?: string;
     views?: number;
+    status: string;
 }

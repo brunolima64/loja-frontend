@@ -1,4 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const slideIn = keyframes`
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+`;
 
 export const PageContainer = styled.div`
     width: 100vw;
@@ -134,4 +145,5 @@ export const OthersAds = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+    animation: ${slideIn} 1s ease-out;
 `;

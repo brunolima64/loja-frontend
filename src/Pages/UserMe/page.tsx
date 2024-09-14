@@ -5,7 +5,7 @@ import * as C from "./styles";
 import { UserContext } from "../../contexts/UserContext";
 import { getAllAds } from "../../Apis/api";
 import { AdItem } from "../../components/AdUser";
-import { Ad } from "../../types/AdType";
+import { AdType } from "../../types/AdType";
 import { UpdateAd } from "../../components/UpdateAd";
 
 export const UserMe = () => {
@@ -18,8 +18,8 @@ export const UserMe = () => {
         return false;
     }
 
-    const [adsUser, setAdsUser] = useState<Ad[]>([]);
-    const [adSelected, setAdSelected] = useState<Ad | undefined>();
+    const [adsUser, setAdsUser] = useState<AdType[]>([]);
+    const [adSelected, setAdSelected] = useState<AdType | undefined>();
     const [showModalUpdateAd, setShowModalUpdateAd] = useState(false);
 
     useEffect(() => {

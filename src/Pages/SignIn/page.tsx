@@ -23,6 +23,7 @@ export const SignIn = () => {
         }
 
         const user = await getUser(data);
+
         if (user.user) {
             userCtx?.setUserLogged(user.user);
             setMessageError("");

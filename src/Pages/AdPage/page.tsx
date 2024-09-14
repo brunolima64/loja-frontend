@@ -4,23 +4,24 @@ import { Header } from "../../components/Header";
 import * as C from "./styles";
 import { AdCtx } from "../../contexts/AdCtx";
 import { Ad } from "../../components/Ad";
-import { getAllAds } from "../../Apis/api";
+import { getOneAd } from "../../Apis/api";
+import { AdType } from "../../types/AdType";
+import { FormateDate } from "../../utils/FormateDate";
 
 export const AdPage = () => {
     const adCtx = useContext(AdCtx);
-
-    const [othersAdsUser, setOthersAdsUser] = useState([]);
+    const [othersAdsUser, setOthersAdsUser] = useState<AdType[]>([]);
 
     useEffect(() => {
-        const getOthersAds = async () => {
-            const res = await getAllAds();
-            if (!res.ads) return false;
-
-            let filteredAdsUser = res.ads.filter((item) => item.idUser === adCtx?.ad?.idUser && item._id !== adCtx?.ad?._id);
-            setOthersAdsUser(filteredAdsUser);
-        }
         getOthersAds();
     }, []);
+
+    const getOthersAds = async () => {
+        if (!adCtx?.ad?._id) return false;
+
+        const res = await getOneAd(adCtx?.ad?._id);
+        setOthersAdsUser(res.others);
+    }
 
     return (
         <C.PageContainer>
@@ -29,11 +30,11 @@ export const AdPage = () => {
                 <C.ProdInfos>
                     <C.Left>
                         <C.ImageArea>
-                            <img src={adCtx?.ad.images[0].url} alt="" />
+                            <img src={adCtx?.ad?.images[0].url} alt="" />
                         </C.ImageArea>
                         <C.InfoArea>
                             <C.Title>{adCtx?.ad?.title}</C.Title>
-                            <C.DateCreated>{adCtx?.ad?.dateCreated}</C.DateCreated>
+                            <C.DateCreated>Postado: {FormateDate(adCtx?.ad?.dateCreated)}</C.DateCreated>
                             {adCtx?.ad?.description &&
                                 <C.Desc>{adCtx?.ad?.description}</C.Desc>
                             }
@@ -56,9 +57,10 @@ export const AdPage = () => {
                         </C.InfoArea>
                     </C.Left>
                     <C.Right>
+
                         <C.PriceArea>
                             <p>Preço:</p>
-                            <h1>$600</h1>
+                            <p>{adCtx?.ad?.priceNeg ? adCtx?.ad?.price : "Negoçiavel"}</p>
                         </C.PriceArea>
                         <C.Contact>Fale com o vendedor</C.Contact>
                         <C.Suport>

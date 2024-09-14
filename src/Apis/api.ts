@@ -1,34 +1,31 @@
+import axios from "axios";
 import { AdType } from "../types/AdType";
 import { CreateAdType } from "../types/CreateAdType";
 import { UserType } from "../types/UserType";
 
-export const getStates = async () => {
-    const res = await fetch("https://loja-backend-2-da6b.onrender.com/state")
-    const json = await res.json();
+const api = axios.create({
+    baseURL: 'https://loja-backend-2-da6b.onrender.com'
+});
 
-    return json;
+export const getStates = async () => {
+    const res = await api.get("/state");
+    return res.data;
 }
 
 export const getCategories = async () => {
-    const res = await fetch("https://loja-backend-2-da6b.onrender.com/category")
-    const json = await res.json();
-
-    return json;
+    const res = await api.get("/category")
+    return res.data;
 }
 
-
 export const getAllAds = async () => {
-    const res = await fetch("https://loja-backend-2-da6b.onrender.com/item")
-    const json = await res.json();
-
-    return json;
+    const res = await api.get("/item")
+    return res.data;
 }
 
 export const getOneAd = async (id: string) => {
-    const res = await fetch("https://loja-backend-2-da6b.onrender.com/item/" + id)
-    const json = await res.json();
+    const res = await api.get("/item/" + id)
 
-    return json;
+    return res.data;
 }
 
 export const createAd = async (data: CreateAdType, token: string) => {
@@ -89,45 +86,36 @@ export const updateAd = async (data: AdType, token: string) => {
 }
 
 export const createUser = async (data: UserType) => {
-
-    const res = await fetch("https://loja-backend-2-da6b.onrender.com/signup/me", {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-
-    return res;
+    const res = await api.post("https://loja-backend-2-da6b.onrender.com/signup/me", data);
+    console.log("newUser: ", res.data);
+    return res.data;
 }
 
 export const getUser = async (data: UserType) => {
-    const res = await fetch("https://loja-backend-2-da6b.onrender.com/signin/me", {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    const json = await res.json();
-
-    return json;
+    const res = await api.post("https://loja-backend-2-da6b.onrender.com/signin/me", data);
+    return res.data;
 }
 
 export const updateUser = async (id: string) => {
-    const res = await fetch("https://loja-backend-2-da6b.onrender.com/user/me" + id)
-    const json = await res.json();
+    // const res = await api.get("/user/me" + id)
 
-    return json;
+    // return res.data;
 }
 
 export const search = async (query: any) => {
-    const queryString = new URLSearchParams(query).toString();
 
-    const res = await fetch("https://loja-backend-2-da6b.onrender.com/item?" + queryString);
-    const json = await res.json();
+    const res = await api.get("/item", {
+        params: {
+            q: query.q,
+            skip: query.skip,
+            cat: query.cat,
+            sort: "asc",
+            limit: query.limit,
+            state: query.state
+        }
+    });
 
-    return json;
+    return res.data;
 }
 
 

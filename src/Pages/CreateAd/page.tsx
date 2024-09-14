@@ -70,6 +70,8 @@ export const CreateAd = () => {
         setIsLoading(true);
         const token = userCtx?.userLogged.token;
 
+        console.log("priceNeg ", data.priceNeg)
+
         const newAd = await createAd({
             idUser: userCtx?.userLogged._id,
             title: data.title,
