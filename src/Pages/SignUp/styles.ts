@@ -29,6 +29,8 @@ justify-content: center;
 align-items: left;
 flex-direction: column;
 padding: 30px;
+margin: 20px 0;
+
 
 a {
     text-align: center;
@@ -43,13 +45,21 @@ a {
 }
 `;
 
+export const InputArea = styled.div``;
+
 export const Input = styled.input`
 width: 100%;
 border: 0;
 outline: 0;
 padding: 10px 15px;
 border-bottom: 1px solid #a0a0a0;
-margin: 20px 0px;
+margin-top: 20px;
+`;
+
+export const MsgError = styled.p`
+    color: red;
+    font-size: 13px;
+    padding: 5px 15px;
 `;
 
 export const SelectArea = styled.div`
@@ -76,21 +86,21 @@ export const Select = styled.select`
 export const ButtonArea = styled.div`
     width: 100%;
     display: flex;
-    justify-content: end;
-`;
+    justify-content: space-between; 
+    margin-top: 30px;
 
-export const Button = styled.input`
-    width: 100px;
-    margin-top: 20px;
-    border: 0;
-    background-color: #f35038;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 6px;
-    color: #fff;
-    text-align: center;
+    .btn {
+        width: 100px;
+        border: 0;
+        background-color: #f35038;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 6px;
+        color: #fff;
+        text-align: center;  
 
-    &:hover {
-        opacity: .9;
+        &:hover {
+            opacity: .8;
+        }
     }
 `;

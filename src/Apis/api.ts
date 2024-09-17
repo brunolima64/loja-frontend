@@ -9,21 +9,28 @@ const api = axios.create({
 
 export const getStates = async () => {
     const res = await api.get("/state");
+    if (!res.data) return false;
+
     return res.data;
 }
 
 export const getCategories = async () => {
-    const res = await api.get("/category")
+    const res = await api.get("/category");
+    if (!res.data) return false;
+
     return res.data;
 }
 
 export const getAllAds = async () => {
-    const res = await api.get("/item")
+    const res = await api.get("/item");
+    if (!res.data) return false;
+
     return res.data;
 }
 
 export const getOneAd = async (id: string) => {
     const res = await api.get("/item/" + id)
+    if (!res.data) return false;
 
     return res.data;
 }
@@ -36,34 +43,7 @@ export const createAd = async (data: CreateAdType, token: string) => {
     if (data.title) formData.append("title", data.title);
     if (data.category) formData.append("category", data.category);
     if (data.state) formData.append("state", data.state);
-    if (data.description) formData.append("description", data.description);
-    if (data.price) formData.append("price", data.price.toString());
-    if (data.priceNeg) formData.append("priceNeg", data.priceNeg.toString()); // corrijir
-
-    if (data.images) {
-        for (let i in data.images) {
-            formData.append(`images`, data.images[i]);
-        }
-    }
-
-    const res = await fetch("https://loja-backend-2-da6b.onrender.com/item", {
-        method: "POST",
-        headers: {
-            'authorization': token
-        },
-        body: formData,
-    })
-
-    return await res.json();
-}
-
-export const updateAd = async (data: AdType, token: string) => {
-
-    const formData = new FormData();
-
-    if (data.title) formData.append("title", data.title);
-    if (data.category) formData.append("category", data.category);
-    if (data.state) formData.append("state", data.state);
+    if (data.status) formData.append("status", data.status);
     if (data.description) formData.append("description", data.description);
     if (data.price) formData.append("price", data.price.toString());
     if (data.priceNeg) formData.append("priceNeg", data.priceNeg.toString());
@@ -74,25 +54,57 @@ export const updateAd = async (data: AdType, token: string) => {
         }
     }
 
-    const res = await fetch(`https://loja-backend-2-da6b.onrender.com/item/${data._id}`, {
-        method: "POST",
+    const res = await api.post("/item", formData, {
         headers: {
             'authorization': token
-        },
-        body: formData,
+        }
     })
 
-    return await res.json();
+    if (!res.data) return false;
+
+    return res.data;
+}
+
+export const updateAd = async (data: AdType, token: string) => {
+
+    const formData = new FormData();
+
+    if (data.title) formData.append("title", data.title);
+    if (data.category) formData.append("category", data.category);
+    if (data.state) formData.append("state", data.state);
+    if (data.status) formData.append("status", data.status);
+    if (data.description) formData.append("description", data.description);
+    if (data.price) formData.append("price", data.price.toString());
+    if (data.priceNeg) formData.append("priceNeg", data.priceNeg.toString());
+
+    if (data.images) {
+        for (let i in data.images) {
+            formData.append(`images`, data.images[i]);
+        }
+    }
+
+    const res = await api.post(`/item/${data._id}`, formData, {
+        headers: {
+            'authorization': token
+        }
+    })
+    if (!res.data) return false;
+
+    return await res.data;
 }
 
 export const createUser = async (data: UserType) => {
     const res = await api.post("https://loja-backend-2-da6b.onrender.com/signup/me", data);
+    if (!res.data) return false;
+
     console.log("newUser: ", res.data);
     return res.data;
 }
 
 export const getUser = async (data: UserType) => {
     const res = await api.post("https://loja-backend-2-da6b.onrender.com/signin/me", data);
+    if (!res.data) return false;
+
     return res.data;
 }
 

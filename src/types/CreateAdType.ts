@@ -7,4 +7,5 @@ export type CreateAdType = {
     price?: number;
     priceNeg?: boolean;
     images?: FileList | undefined;
+    status?: string;
 }

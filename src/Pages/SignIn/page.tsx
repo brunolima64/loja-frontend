@@ -16,6 +16,7 @@ export const SignIn = () => {
 
     const userLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
 
         let data = {
             email: emailField,
@@ -32,6 +33,11 @@ export const SignIn = () => {
             setMessageError("Email ou senha inválidos");
         }
 
+        setIsLoading(false);
+    }
+
+    const handleCancelBtn = () => {
+        navigate("/")
     }
 
     return (
@@ -56,7 +62,18 @@ export const SignIn = () => {
                     {<C.msgError>{messageError}</C.msgError>}
 
                     <C.ButtonArea>
-                        <C.Button type="submit" value="Entrar" />
+                        <button
+                            className="btn"
+                            style={{ backgroundColor: "#fff", color: "#000" }}
+                            onClick={handleCancelBtn}
+                        >
+                            Cancelar
+                        </button>
+                        <input
+                            className="btn"
+                            type="submit"
+                            value={`${isLoading ? "Entrando..." : "Entrar"}`}
+                        />
                     </C.ButtonArea>
 
                     <Link to="/signup">ainda não é um usúario? cadastrar-se</Link>

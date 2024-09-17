@@ -1,92 +1,143 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import * as C from "./styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createUser, getStates } from "../../Apis/api";
 import { StateType } from "../../types/StateType";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserContext } from "../../contexts/UserContext";
+
+const newUserSchema = z.object({
+    name: z.string().min(2, { message: "Nome obrigátorio" }),
+    email: z.string().email({ message: "Email obrigátorio" }),
+    state: z.string().min(2, { message: "Estado obrigátorio" }),
+    password: z.string().min(8, { message: "Minímo 8 caracteres" }),
+    confirmPassword: z.string().min(8, { message: "Minímo 8 caracteres" }),
+})
+type NewUser = z.infer<typeof newUserSchema>;
 
 export const SignUp = () => {
+    const navigate = useNavigate();
+    const userCtx = useContext(UserContext);
+
+    const { handleSubmit, register, formState: { errors } } = useForm<NewUser>({
+        resolver: zodResolver(newUserSchema),
+    });
 
     const [statesReq, setStatesReq] = useState<StateType[]>([]);
-
-    const [nameField, setNameField] = useState("");
-    const [emailField, setEmailField] = useState("");
-    const [statesField, setStatesField] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [messageErrorPassword, setMessageErrorPassword] = useState("");
 
     useEffect(() => {
         const getAllStates = async () => {
             const res = await getStates();
             setStatesReq(res.states);
-            console.log(res.states)
         }
         getAllStates();
     }, []);
 
-    const createNewUser = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const createNewUser = async (data: NewUser) => {
+        setIsLoading(true);
 
-        let data = {
-            name: nameField,
-            email: emailField,
-            state: statesField,
-            passwordHash: password
+        if (data.password === data.confirmPassword) {
+
+            const newUser = await createUser({
+                name: data.name,
+                email: data.email,
+                state: data.state,
+                passwordHash: data.password
+            });
+
+            // save user and redirect for home.
+            userCtx?.setUserLogged(newUser.newUser);
+            navigate("/");
+        } else {
+            setMessageErrorPassword("Senhas não batem, por favor verifique.");
         }
 
-        const newUser = await createUser(data);
-        console.log(newUser)
+        setIsLoading(false);
+    }
+
+    const handleCancelBtn = () => {
+        navigate("/");
     }
 
     return (
         <C.PageContainer>
             <C.FormArea>
                 <C.Title>Seja um de Nós</C.Title>
-                <C.Form onSubmit={createNewUser}>
-                    <C.Input
-                        type="text"
-                        placeholder="Digite seu nome"
-                        autoFocus={true}
-                        value={nameField}
-                        onChange={e => setNameField(e.target.value)}
-                    />
-                    <C.Input
-                        type="email"
-                        placeholder="Digite seu melhor e-mail"
-                        value={emailField}
-                        onChange={e => setEmailField(e.target.value)}
-                    />
 
-                    <C.SelectArea>
-                        <label>Selecione um estado:</label>
-                        <C.Select name="Estados" id="0" onChange={(e) => setStatesField(e.target.value)}>
-                            <option></option>
-                            {statesReq.map((it) => (
-                                <option key={it._id} value={it.name}>{it.name}</option>
-                            ))}
-                        </C.Select>
-                    </C.SelectArea>
+                <C.Form onSubmit={handleSubmit(createNewUser)}>
+                    <C.InputArea>
+                        <C.Input
+                            type="text"
+                            placeholder="Digite seu nome"
+                            autoFocus={true}
+                            {...register("name")}
+                        />
+                        {errors.name && <C.MsgError>{errors.name.message}</C.MsgError>}
+                    </C.InputArea>
 
-                    <C.Input
-                        type="password"
-                        placeholder="Digite uma senha"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                    />
+                    <C.InputArea>
+                        <C.Input
+                            type="email"
+                            placeholder="Digite seu melhor e-mail"
+                            {...register("email")}
+                        />
+                        {errors.email && <C.MsgError>{errors.email.message}</C.MsgError>}
+                    </C.InputArea>
 
-                    <C.Input
-                        type="password"
-                        placeholder="Confirme sua senha"
-                        value={confirmPassword}
-                        onChange={e => setConfirmPassword(e.target.value)}
-                    />
+                    <C.InputArea>
+                        <C.SelectArea>
+                            <label>Selecione um estado:</label>
+                            <C.Select {...register("state")}>
+                                <option></option>
+                                {statesReq.map((it) => (
+                                    <option key={it._id} value={it.name}>{it.name}</option>
+                                ))}
+                            </C.Select>
+                        </C.SelectArea>
+                        {errors.state && <C.MsgError>{errors.state.message}</C.MsgError>}
+                    </C.InputArea>
+
+                    <C.InputArea>
+                        <C.Input
+                            type="password"
+                            placeholder="Digite uma senha"
+                            {...register("password")}
+                        />
+                        {errors.password && <C.MsgError>{errors.password.message}</C.MsgError>}
+                        {messageErrorPassword.length > 0 && <C.MsgError>{messageErrorPassword}</C.MsgError>}
+                    </C.InputArea>
+
+                    <C.InputArea>
+                        <C.Input
+                            type="password"
+                            placeholder="Confirme sua senha"
+                            {...register("confirmPassword")}
+                        />
+                        {errors.confirmPassword && <C.MsgError>{errors.confirmPassword.message}</C.MsgError>}
+                        {messageErrorPassword && <C.MsgError>{messageErrorPassword}</C.MsgError>}
+                    </C.InputArea>
 
                     <C.ButtonArea>
-                        <C.Button type="submit" value="Cadastrar" onClick={createNewUser} />
+                        <button
+                            className="btn"
+                            style={{ backgroundColor: "#fff", color: "#000" }}
+                            onClick={handleCancelBtn}
+                        >Cancelar</button>
+
+                        <input
+                            className="btn"
+                            type="submit"
+                            value={`${isLoading ? "Criando..." : "Criar"}`}
+                        />
                     </C.ButtonArea>
 
                     <Link to="/signin">Já é um usúario? login</Link>
                 </C.Form>
             </C.FormArea>
-        </C.PageContainer>
+        </C.PageContainer >
     )
 }

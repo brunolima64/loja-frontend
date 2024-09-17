@@ -80,7 +80,7 @@ export const CreateAd = () => {
             description: data.desc,
             price: data.price,
             priceNeg: data.priceNeg,
-            images: data.images,
+            images: data.images
         }, token);
 
         setIsLoading(false);

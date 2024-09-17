@@ -29,13 +29,14 @@ justify-content: center;
 align-items: left;
 flex-direction: column;
 padding: 30px;
+margin: 30px 0;
 
 a {
     text-align: center;
     text-decoration: none;
     color: #f35038;
     font-size: 14px;
-    margin-top: 40px;
+    margin-top: 50px;
 
     &:hover {
         color: #f98465;
@@ -57,22 +58,22 @@ margin-bottom: 5px;
 export const ButtonArea = styled.div`
     width: 100%;
     display: flex;
-    justify-content: end; 
+    justify-content: space-between; 
     margin-top: 30px;
-`;
 
-export const Button = styled.input`
-    width: 100px;
-    border: 0;
-    background-color: #f35038;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 6px;
-    color: #fff;
-    text-align: center;
+    .btn {
+        width: 100px;
+        border: 0;
+        background-color: #f35038;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 6px;
+        color: #fff;
+        text-align: center;
 
-    &:hover {
-        opacity: .9;
+        &:hover {
+            opacity: .8;
+        }
     }
 `;
 
