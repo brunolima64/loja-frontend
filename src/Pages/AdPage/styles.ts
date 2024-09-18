@@ -89,13 +89,17 @@ export const Right = styled.div`
 `;
 
 export const PriceArea = styled.div`
-    font-weight: bold;
-    background-color: #FFF;
-    padding: 10px;
-    border-radius: 10px;
+background-color: #FFF;
+padding: 10px;
+border-radius: 10px;
 
-    h1 {
+    p {
+        font-weight: bold;
         color: blue;
+    }
+
+    h3 {
+        margin-bottom: 5px;
     }
 `;
 

@@ -15,35 +15,45 @@ export const Container = styled.div`
     flex-direction: column;
 `;
 
+export const Title = styled.h1``;
+
 export const InfoUser = styled.div`
     display: flex;
-    margin:  40px 0;
-    padding: 30px 0;
-    border-bottom: 1px solid #bebebe;
-`;
-
-export const ImgArea = styled.div`
-    width: 200px;
-    box-shadow: 1p 1px 10px gray;
-    margin-right: 20px;
-
-    img {
-        width: 100%;
-        background-size: cover;
-        background-position: center;
-        border-radius: 50%;
-    }
-`;
-
-export const InfoArea = styled.div`
-    padding: 20px;
-    display: flex;
     flex-direction: column;
+    margin:  30px 0;
+    padding: 40px 30px;
+    background-color: #fff;
+    border-radius: 10px;
     gap: 15px;
 `;
 
-export const Info = styled.div`
+export const InfoArea = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+`;
 
+export const TitleInfo = styled.p`
+    font-size: 17px;
+`;
+
+export const Info = styled.p`
+    color: #808080;
+`;
+
+export const ButtonEditProfile = styled.button`
+outline: 0;
+border: 0;
+padding: 10px 10px;
+background-color: #3f21f6;
+color: #fff;
+border-radius: 6px;
+width: 150px;
+cursor: pointer;
+
+&:hover {
+    background-color: #5833f9;
+}
 `;
 
 export const AdsUser = styled.div`

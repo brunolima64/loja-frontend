@@ -7,6 +7,7 @@ import { getAllAds } from "../../Apis/api";
 import { AdItem } from "../../components/AdUser";
 import { AdType } from "../../types/AdType";
 import { UpdateAd } from "../../components/UpdateAd";
+import { UpdateUser } from "../../components/UpdateUser";
 
 export const UserMe = () => {
     const userCtx = useContext(UserContext);
@@ -21,6 +22,8 @@ export const UserMe = () => {
     const [adsUser, setAdsUser] = useState<AdType[]>([]);
     const [adSelected, setAdSelected] = useState<AdType | undefined>();
     const [showModalUpdateAd, setShowModalUpdateAd] = useState(false);
+
+    const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
 
     useEffect(() => {
         const getMyAds = async () => {
@@ -37,34 +40,30 @@ export const UserMe = () => {
         setAdSelected(adFiltered);
     }
 
+    const showUpdateUser = () => {
+        setShowModalUpdateUser(true);
+    }
+
     return (
         <C.PageContainer>
-            {showModalUpdateAd && adSelected &&
-                <UpdateAd
-                    item={adSelected}
-                    setAdSelected={setAdSelected}
-                    setShowModalUpdateAd={setShowModalUpdateAd}
+            <Header />
+            {showModalUpdateUser &&
+                <UpdateUser
+                    setShowModalUpdateUser={setShowModalUpdateUser}
                 />
             }
-            <Header />
             <C.Container>
                 <C.InfoUser>
-                    <C.ImgArea>
-                        <img
-                            src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"
-                            alt=""
-                        />
-                    </C.ImgArea>
+                    <C.Title>Meu usuario</C.Title>
                     <C.InfoArea>
-                        <C.Info>
-                            <p>Usuario:</p>
-                            <p>{userCtx?.userLogged && userCtx?.userLogged.name}</p>
-                        </C.Info>
-                        <C.Info>
-                            <p>email: </p>
-                            <p>{userCtx?.userLogged && userCtx?.userLogged.email}</p>
-                        </C.Info>
+                        <C.TitleInfo>Usuario:</C.TitleInfo>
+                        <C.Info>{userCtx?.userLogged.name}</C.Info>
                     </C.InfoArea>
+                    <C.InfoArea>
+                        <C.TitleInfo>E-mail:</C.TitleInfo>
+                        <C.Info>{userCtx?.userLogged.email}</C.Info>
+                    </C.InfoArea>
+                    <C.ButtonEditProfile onClick={showUpdateUser}>Editar usuario</C.ButtonEditProfile>
                 </C.InfoUser>
 
                 <h3>Meus posts: </h3>
@@ -79,6 +78,14 @@ export const UserMe = () => {
                     ))}
                     {!adsUser && <p>Não há posts para exibir.</p>}
                 </C.AdsUser>
+
+                {showModalUpdateAd && adSelected &&
+                    <UpdateAd
+                        item={adSelected}
+                        setAdSelected={setAdSelected}
+                        setShowModalUpdateAd={setShowModalUpdateAd}
+                    />
+                }
             </C.Container>
             <Footer />
         </C.PageContainer>

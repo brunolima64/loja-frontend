@@ -10,6 +10,13 @@ import { FormateDate } from "../../utils/FormateDate";
 
 export const AdPage = () => {
     const adCtx = useContext(AdCtx);
+
+    if (!adCtx?.ad) {
+        alert("Ocoreu um erro!");
+        window.location.href = "/";
+        return false;
+    }
+
     const [othersAdsUser, setOthersAdsUser] = useState<AdType[]>([]);
 
     useEffect(() => {
@@ -47,10 +54,6 @@ export const AdPage = () => {
                                     <h4>Estado:</h4>
                                     {adCtx?.ad?.state}
                                 </C.Info>
-                                <C.Info>
-                                    <h4>Status:</h4>
-                                    {adCtx?.ad?.status}
-                                </C.Info>
                             </C.Infos>
                             <hr />
                             <p>visualizações: {adCtx?.ad?.views}</p>
@@ -59,7 +62,7 @@ export const AdPage = () => {
                     <C.Right>
 
                         <C.PriceArea>
-                            <p>Preço:</p>
+                            <h3>Preço:</h3>
                             <p>{adCtx?.ad?.priceNeg ? adCtx?.ad?.price : "Negoçiavel"}</p>
                         </C.PriceArea>
                         <C.Contact>Fale com o vendedor</C.Contact>

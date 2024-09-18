@@ -2,21 +2,23 @@ import { Link } from "react-router-dom";
 import * as C from "./styles";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import { AdCtx } from "../../contexts/AdCtx";
 
 export const Header = () => {
+    const adCtx = useContext(AdCtx);
     const userCtx = useContext(UserContext);
 
     return (
         <C.HeaderContainer>
             <C.Header>
-                <Link to="/">
+                <Link to="/" onClick={() => adCtx?.setAd(null)}>
                     <C.Logo>Bazaar Shop</C.Logo>
                 </Link>
                 <C.Menu>
                     <ul>
                         {userCtx?.userLogged &&
                             <>
-                                <Link to={"/"}>
+                                <Link to={"/"} onClick={() => adCtx?.setAd(null)}>
                                     <li>INICIO</li>
                                 </Link>
 

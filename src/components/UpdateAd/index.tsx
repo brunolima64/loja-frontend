@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { UserContext } from "../../contexts/UserContext";
 import { z } from "zod";
-import { Ad } from "../../types/AdType";
+import { AdType } from "../../types/AdType";
 import { AlertContext } from "../../contexts/AlertContext";
 
 const schemaAd = z.object({
@@ -26,8 +26,8 @@ const schemaAd = z.object({
 type AdChemaType = z.infer<typeof schemaAd>;
 
 type Props = {
-    item: Ad;
-    setAdSelected: (ad: Ad | undefined) => void;
+    item: AdType;
+    setAdSelected: (ad: AdType | undefined) => void;
     setShowModalUpdateAd: (b: boolean) => void;
 }
 export const UpdateAd = ({ item, setAdSelected, setShowModalUpdateAd }: Props) => {

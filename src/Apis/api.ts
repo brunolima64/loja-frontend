@@ -108,10 +108,15 @@ export const getUser = async (data: UserType) => {
     return res.data;
 }
 
-export const updateUser = async (id: string) => {
-    // const res = await api.get("/user/me" + id)
+export const updateUser = async (data: UserType, token: string) => {
+    const res = await api.put("/user/me/" + data._id, data, {
+        headers: {
+            'authorization': token
+        }
+    });
+    if (!res.data) return false;
 
-    // return res.data;
+    return res.data;
 }
 
 export const search = async (query: any) => {
