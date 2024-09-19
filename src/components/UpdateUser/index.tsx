@@ -9,10 +9,10 @@ import { z } from "zod";
 import { AlertContext } from "../../contexts/AlertContext";
 
 const schemaUser = z.object({
-    name: z.string().min(2, { message: "Digite um nome válido!" }).optional(),
-    email: z.string().email({ message: "Digite um e-mail válido!" }).optional(),
-    password: z.string().min(8, { message: "Minímo 8 caractéres!" }).optional(),
-    confirmPassword: z.string().min(8, { message: "Minímo 8 caractéres!" }).optional(),
+    name: z.string().min(2, { message: "Digite um nome válido!" }).trim().optional(),
+    email: z.string().email({ message: "Digite um e-mail válido!" }).trim().optional(),
+    password: z.string().trim().optional(),
+    confirmPassword: z.string().trim().optional(),
     state: z.string().optional().nullable(),
 }).refine(data => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -33,14 +33,15 @@ export const UpdateUser = ({ setShowModalUpdateUser }: Props) => {
         defaultValues: {
             name: userCtx?.userLogged.name,
             email: userCtx?.userLogged.email,
-            password: "",
-            confirmPassword: "",
+            password: undefined,
+            confirmPassword: undefined,
             state: userCtx?.userLogged.state
         }
     });
 
     const [statesReq, setStatesReq] = useState<StateType[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [msgErrorPasswordLength, setMsgErrorPasswordLength] = useState("");
 
     // Pegar states
     useEffect(() => {
@@ -53,6 +54,11 @@ export const UpdateUser = ({ setShowModalUpdateUser }: Props) => {
 
     // formulario 
     const formSubmit = async (data: schemaUserType) => {
+        if (data.password && data.password.length < 8) {
+            setMsgErrorPasswordLength("Minímo 8 caracteres");
+            return false;
+        }
+
         setIsLoading(true);
         const token = userCtx?.userLogged.token;
 
@@ -90,7 +96,7 @@ export const UpdateUser = ({ setShowModalUpdateUser }: Props) => {
             <C.BackGround onClick={closedModalBtn}></C.BackGround>
 
             <C.InfoArea>
-                <h2>Editar post: </h2>
+                <h2>Editar informações de usuario: </h2>
 
                 <C.Form onSubmit={handleSubmit(formSubmit)}>
 
@@ -132,6 +138,7 @@ export const UpdateUser = ({ setShowModalUpdateUser }: Props) => {
                             {...register("password")}
                         />
                         {errors.password && <C.MsgError>{errors.password.message as string}</C.MsgError>}
+                        {msgErrorPasswordLength.length > 0 && <C.MsgError>{msgErrorPasswordLength}</C.MsgError>}
                     </C.InputArea>
 
                     <C.InputArea>
@@ -142,6 +149,7 @@ export const UpdateUser = ({ setShowModalUpdateUser }: Props) => {
                             {...register("confirmPassword")}
                         />
                         {errors.confirmPassword && <C.MsgError>{errors.confirmPassword.message as string}</C.MsgError>}
+                        {msgErrorPasswordLength.length > 0 && <C.MsgError>{msgErrorPasswordLength}</C.MsgError>}
                     </C.InputArea>
 
                     <C.BtnArea>

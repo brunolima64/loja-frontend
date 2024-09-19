@@ -40,10 +40,42 @@ export const Left = styled.div`
 `;
 
 export const ImageArea = styled.div`  
+    display: flex;
+    align-items: center;
+    width: 400px; 
+
     img {
         width: 400px;
-        height: 100%;
+        height: 100%; 
+        overflow: hidden;
     }
+`;
+
+export const ControllerBtns = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 400px; 
+position: absolute;
+`;
+
+export const BtnPrev = styled.button`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 0;
+    padding: 5px;
+    border: 1px solid #bebebe;
+    cursor: pointer; 
+`;
+export const BtnNext = styled.button`
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 0;
+    padding: 5px;
+    border: 1px solid #bebebe;
+    cursor: pointer; 
 `;
 
 export const InfoArea = styled.div` 

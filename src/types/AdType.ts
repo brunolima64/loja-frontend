@@ -7,7 +7,10 @@ export type AdType = {
     description?: string;
     price?: number;
     priceNeg?: boolean;
-    images?: FileList | undefined;
+    images?: [{
+        url: string;
+        default: boolean;
+    }];
     dateCreated?: string;
     views?: number;
     status: string;

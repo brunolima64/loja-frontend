@@ -10,6 +10,7 @@ import { FormateDate } from "../../utils/FormateDate";
 
 export const AdPage = () => {
     const adCtx = useContext(AdCtx);
+    const [countImg, setCountImg] = useState(0);
 
     if (!adCtx?.ad) {
         alert("Ocoreu um erro!");
@@ -30,35 +31,66 @@ export const AdPage = () => {
         setOthersAdsUser(res.others);
     }
 
+    const handlePrevBtn = () => {
+        if (adCtx.ad && adCtx.ad.images) {
+
+            if (countImg === 0 && adCtx.ad.images.length > 0) {
+                setCountImg(adCtx.ad?.images.length - 1);
+            } else {
+                setCountImg(countImg - 1);
+            }
+
+        }
+    }
+
+    const handleNextBtn = () => {
+        if (adCtx.ad && adCtx.ad.images) {
+
+            if ((adCtx.ad.images?.length - 1) === countImg) {
+                setCountImg(0);
+            } else {
+                setCountImg(countImg + 1);
+            }
+
+        }
+    }
+
     return (
         <C.PageContainer>
             <Header />
             <C.Container>
                 <C.ProdInfos>
-                    <C.Left>
-                        <C.ImageArea>
-                            <img src={adCtx?.ad?.images[0].url} alt="" />
-                        </C.ImageArea>
-                        <C.InfoArea>
-                            <C.Title>{adCtx?.ad?.title}</C.Title>
-                            <C.DateCreated>Postado: {FormateDate(adCtx?.ad?.dateCreated)}</C.DateCreated>
-                            {adCtx?.ad?.description &&
-                                <C.Desc>{adCtx?.ad?.description}</C.Desc>
-                            }
-                            <C.Infos>
-                                <C.Info>
-                                    <h4>Categoria:</h4>
-                                    {adCtx?.ad?.category}
-                                </C.Info>
-                                <C.Info>
-                                    <h4>Estado:</h4>
-                                    {adCtx?.ad?.state}
-                                </C.Info>
-                            </C.Infos>
-                            <hr />
-                            <p>visualizações: {adCtx?.ad?.views}</p>
-                        </C.InfoArea>
-                    </C.Left>
+                    {adCtx.ad &&
+                        <C.Left>
+                            <C.ImageArea>
+                                <C.ControllerBtns>
+                                    <C.BtnPrev onClick={handlePrevBtn}>⬅</C.BtnPrev>
+                                    <C.BtnNext onClick={handleNextBtn}>➡</C.BtnNext>
+                                </C.ControllerBtns>
+
+                                <img src={adCtx.ad.images !== undefined && adCtx.ad.images[countImg].url !== "" ? adCtx.ad.images[countImg].url : ""} alt="" />
+                            </C.ImageArea>
+
+                            <C.InfoArea>
+                                <C.Title>{adCtx?.ad?.title}</C.Title>
+                                <C.DateCreated>Postado: {FormateDate(adCtx.ad.dateCreated)}</C.DateCreated>
+                                {adCtx?.ad?.description &&
+                                    <C.Desc>{adCtx?.ad?.description}</C.Desc>
+                                }
+                                <C.Infos>
+                                    <C.Info>
+                                        <h4>Categoria:</h4>
+                                        {adCtx?.ad?.category}
+                                    </C.Info>
+                                    <C.Info>
+                                        <h4>Estado:</h4>
+                                        {adCtx?.ad?.state}
+                                    </C.Info>
+                                </C.Infos>
+                                <hr />
+                                <p>visualizações: {adCtx?.ad?.views}</p>
+                            </C.InfoArea>
+                        </C.Left>}
                     <C.Right>
 
                         <C.PriceArea>
