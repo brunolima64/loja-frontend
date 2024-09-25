@@ -4,28 +4,42 @@ import * as C from "./styles";
 import { useContext, useEffect } from "react";
 import { AdCtx } from "../../contexts/AdCtx";
 import { getOneAd } from "../../Apis/api";
+import { AdType } from "../../types/AdType";
 
 type Props = {
-    data: any;
+    data: AdType;
 }
 export const Ad = ({ data }: Props) => {
     const AdContext = useContext(AdCtx);
     const navigate = useNavigate();
 
-    const redirectForOneAd = async (id: string) => {
-        const res = await getOneAd(id.toString());
-        if (!res) return false;
+    useEffect(() => {
+        redirectForOneAd();
+    }, [])
 
-        AdContext?.setAd(res.ad);
-        navigate(`/item/${id}`);
+    const redirectForOneAd = async (id?: string) => {
+        if (id) {
+            const res = await getOneAd(id.toString());
+            if (!res) return false;
 
-        console.log(AdContext?.ad)
+            AdContext?.setAd(res.ad);
+            AdContext?.setOthers(res.others);
+
+            navigate(`/item/${id}`);
+        }
+
     }
 
     return (
         <C.Container onClick={() => redirectForOneAd(data._id)}>
             <C.AreaImage>
-                <C.Image src={data.images[0].url} alt="" />
+                {data.images?.map((it, i) => (
+                    <C.Image
+                        key={i}
+                        src={it.default === true ? it.url : ""}
+                        alt=""
+                    />
+                ))}
             </C.AreaImage>
             <C.AreaInfo>
                 <C.Title>{data.title}</C.Title>
@@ -42,6 +56,6 @@ export const Ad = ({ data }: Props) => {
                 }
 
             </C.AreaInfo>
-        </C.Container>
+        </C.Container >
     )
 }

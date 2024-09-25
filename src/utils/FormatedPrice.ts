@@ -1,8 +1,11 @@
-export const FormatedPrice = (price: number) => {
-    let newPrice = price.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    });
+export const FormatedPrice = (price?: number) => {
+    if (price) {
+        let newPrice = price.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+        return newPrice;
+    }
 
-    return newPrice;
+    return false;
 }

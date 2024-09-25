@@ -21,8 +21,17 @@ export const getCategories = async () => {
     return res.data;
 }
 
-export const getAllAds = async () => {
-    const res = await api.get("/item");
+export const getAllAds = async (query: any) => {
+    const res = await api.get("/item", {
+        params: {
+            q: query.q,
+            skip: query.skip,
+            cat: query.cat,
+            sort: "asc",
+            limit: query.limit,
+            state: query.state
+        },
+    });
     if (!res.data) return false;
 
     return res.data;
@@ -119,16 +128,11 @@ export const updateUser = async (data: UserType, token: string) => {
     return res.data;
 }
 
-export const search = async (query: any) => {
+export const search = async (query: string) => {
 
     const res = await api.get("/item", {
         params: {
-            q: query.q,
-            skip: query.skip,
-            cat: query.cat,
-            sort: "asc",
-            limit: query.limit,
-            state: query.state
+            q: query,
         }
     });
 

@@ -22,6 +22,8 @@ export const Home = () => {
     const [statesFilter, setStatesFilter] = useState("");
     const [catFilter, setCatFilter] = useState("");
 
+    const [limit, setLimit] = useState(10);
+
     useEffect(() => {
         const getCats = async () => {
             const res = await getCategories();
@@ -39,45 +41,48 @@ export const Home = () => {
     }, []);
 
     useEffect(() => {
-        const getAds = async () => {
-            let res = await getAllAds();
-            setAds(res.ads);
-
-            let adsPlusViews = [];
-            res.ads.sort((a, b) => b.views - a.views);
-
-            for (let i = 0; i < 4; i++) {
-                adsPlusViews.push(res.ads[i]);
-            }
-
-            setAdsViews(adsPlusViews);
-        }
         getAds();
-    }, []);
+    }, [limit]);
 
-    const filterAds = async () => {
-        setIsLoading(true);
-        setShowFilter(true);
-        setShowAds(true);
-
-        const res = await search({
+    const getAds = async () => {
+        let data = {
             q: searchField || "",
             skip: 0 || 0,
             cat: catFilter || "",
             sort: "asc",
-            limit: 10,
+            limit: limit,
             state: statesFilter || ""
-        });
+        }
+
+        let res = await getAllAds(data);
 
         setAds(res.ads);
-        setIsLoading(false)
+
+        // ads more views
+        let adsPlusViews = [];
+        type sortAds = { views: number };
+
+        res.ads.sort((a: sortAds, b: sortAds) => b.views - a.views);
+
+        for (let i = 0; i < 4; i++) {
+            adsPlusViews.push(res.ads[i]);
+        }
+        setAdsViews(adsPlusViews);
     }
 
-    useEffect(() => {
-        if (!catFilter && !statesFilter && !searchField) {
-            setShowFilter(false);
-        }
-    }, [catFilter, statesFilter, searchField]);
+
+    const filterAds = async () => {
+        setIsLoading(true);
+        setShowAds(true);
+
+        await getAds(); // load ads filtered 
+
+        setIsLoading(false);
+    }
+
+    const clearFilter = () => {
+        window.location.href = "/"; // reload page and clear the fields;
+    }
 
     return (
         <C.PageContainer>
@@ -86,13 +91,13 @@ export const Home = () => {
 
                 <C.SearchArea>
                     <C.Input
-                        type="text"
+                        type="search"
                         value={searchField}
                         onChange={e => setSearchField(e.target.value)}
                     />
 
                     <C.Select onChange={e => setStatesFilter(e.target.value)}>
-                        <option value="0"></option>
+                        <option value=""></option>
                         {states.map((it) => (
                             <option key={it._id} value={it.name}>{it.name}</option>
 
@@ -107,53 +112,29 @@ export const Home = () => {
                         <CategoryItem
                             key={i}
                             data={item}
+                            catSelected={catFilter}
                             setCatSelected={() => setCatFilter(item.name)}
                         />
                     ))}
                 </C.Categories>
-
-                {showFilter &&
-                    <C.ShowFilters>
-                        <p>Filtros: </p>
-
-                        {catFilter &&
-                            <C.ShowFilter>
-                                <C.Back onClick={() => setCatFilter("")}>❌</C.Back>
-                                <p>Categoria: {catFilter}</p>
-                            </C.ShowFilter>}
-
-                        {statesFilter &&
-                            <C.ShowFilter>
-                                <C.Back onClick={() => setStatesFilter("")}>❌</C.Back>
-                                <p>Estado: {statesFilter}</p>
-                            </C.ShowFilter>}
-
-                        {searchField &&
-                            <C.ShowFilter>
-                                <C.Back onClick={() => setSearchField("")}>❌</C.Back>
-                                <p>nome: {searchField}</p>
-                            </C.ShowFilter>}
-
-                    </C.ShowFilters>
-                }
 
                 {!showAds && adsViews.length > 0 &&
                     <>
                         <h2>Anúncios mais visualizados</h2>
 
                         <C.AreaAds>
-                            {adsViews.map(item => (
+                            {adsViews.length > 0 && adsViews.map(item => (
                                 <Ad key={item._id} data={item} />
                             ))}
                         </C.AreaAds>
 
-                        <h2 onClick={() => setShowAds(!showAds)}>Ver todos</h2>
+                        <h2 onClick={() => setShowAds(true)}>Ver todos</h2>
                     </>
                 }
 
                 {showAds &&
                     <>
-                        <h2 onClick={() => setShowAds(!showAds)}>Ver menos</h2>
+                        <h2 onClick={() => setShowAds(false)}>Ver menos</h2>
 
                         <C.AreaAds>
                             {ads.map(item => (
@@ -161,11 +142,25 @@ export const Home = () => {
                             ))}
                         </C.AreaAds>
 
-                        {ads.length === 0 && <p>Não há itens para exibir.</p>}
+                        {ads.length > 9 &&
+                            <C.ButtonArea>
+                                <C.Button onClick={() => setLimit(limit + 10)}>Ver mais</C.Button>
+                            </C.ButtonArea>
+                        }
+
+                        {ads.length === 0 &&
+                            <>
+                                <p>Nenhum anúncio corresponde ao filtro.</p>
+                                <C.ButtonArea>
+                                    <C.Button onClick={clearFilter}>Limpar filtro</C.Button>
+                                </C.ButtonArea>
+                            </>
+                        }
                     </>
                 }
+
             </C.Container>
             <Footer />
-        </C.PageContainer>
+        </C.PageContainer >
     )
 }

@@ -14,4 +14,5 @@ export type AdType = {
     dateCreated?: string;
     views?: number;
     status: string;
+    others?: object[];
 }

@@ -130,3 +130,20 @@ export const Back = styled.div`
     margin: 5px 0;
     width: 100%;  
 `;
+
+export const ButtonArea = styled.div`
+display: flex;
+align-items: end;
+justify-content: end;
+margin-right: 5px;
+margin-top: 30px;
+
+
+    div {
+        border: 1px solid #bebebe;
+        padding: 6px;
+        background-color: #fff; 
+        border-radius: 6px;
+        cursor: pointer;
+    }
+`;
