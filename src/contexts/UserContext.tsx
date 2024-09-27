@@ -1,8 +1,9 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { User } from "../types/User";
 
 type UserCtxType = {
-    userLogged: any;
-    setUserLogged: (user: any) => void;
+    userLogged: User;
+    setUserLogged: (user: User | null) => void;
 }
 export const UserContext = createContext<UserCtxType | null>(null);
 

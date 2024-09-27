@@ -12,7 +12,7 @@ import { StateType } from "../../types/StateType";
 import { AlertContext } from "../../contexts/AlertContext";
 
 const schemaAd = z.object({
-    title: z.string().min(1, { message: "Obrigatório" }),
+    title: z.string().min(2, { message: "Obrigatório" }),
     price: z.number({ message: "Obrigatório" }),
     priceNeg: z.boolean().optional(),
     desc: z.string().optional(),
@@ -83,13 +83,15 @@ export const CreateAd = () => {
             images: data.images
         }, token);
 
-        setIsLoading(false);
+        console.log(newAd)
 
         // verifica se o item foi adicionado com sucesso
         if (!newAd) {
             alertCtx?.setAlertMsg("error");
+            setIsLoading(false);
         } else {
             alertCtx?.setAlertMsg("success");
+            setIsLoading(false);
         }
 
         setTimeout(() => {
@@ -112,6 +114,7 @@ export const CreateAd = () => {
                     <C.InputArea>
                         <label>Titulo:</label>
                         <input
+                            type="text"
                             placeholder="Digite um titulo"
                             {...register("title")}
                         />

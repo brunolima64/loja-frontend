@@ -60,7 +60,7 @@ export const UpdateUser = ({ setShowModalUpdateUser }: Props) => {
         }
 
         setIsLoading(true);
-        const token = userCtx?.userLogged.token;
+        const token = userCtx?.userLogged.token || "";
 
         const updatedUser = await updateUser({
             _id: userCtx?.userLogged._id,
@@ -84,7 +84,6 @@ export const UpdateUser = ({ setShowModalUpdateUser }: Props) => {
             alertCtx?.setAlertMsg("");
         }, 5000);
     }
-
 
     // close the modal
     const closedModalBtn = () => {

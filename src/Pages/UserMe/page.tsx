@@ -5,9 +5,9 @@ import * as C from "./styles";
 import { UserContext } from "../../contexts/UserContext";
 import { getAllAds } from "../../Apis/api";
 import { AdItem } from "../../components/AdUser";
-import { AdType } from "../../types/AdType";
 import { UpdateAd } from "../../components/UpdateAd";
 import { UpdateUser } from "../../components/UpdateUser";
+import { Ad } from "../../types/Ad";
 
 export const UserMe = () => {
     const userCtx = useContext(UserContext);
@@ -19,8 +19,8 @@ export const UserMe = () => {
         return false;
     }
 
-    const [adsUser, setAdsUser] = useState<AdType[]>([]);
-    const [adSelected, setAdSelected] = useState<AdType | undefined>();
+    const [adsUser, setAdsUser] = useState<Ad[]>([]);
+    const [adSelected, setAdSelected] = useState<Ad | undefined>();
     const [showModalUpdateAd, setShowModalUpdateAd] = useState(false);
 
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
@@ -36,7 +36,7 @@ export const UserMe = () => {
     }, [adSelected]);
 
     const showUpdateAd = (id: string) => {
-        let adFiltered = adsUser.find((it: any) => it._id === id);
+        let adFiltered = adsUser.find((it: Ad) => it._id === id);
         setAdSelected(adFiltered);
     }
 
@@ -76,7 +76,7 @@ export const UserMe = () => {
                             showUpdateAd={() => showUpdateAd(it._id)}
                         />
                     ))}
-                    {!adsUser && <p>Não há posts para exibir.</p>}
+                    {adsUser.length === 0 && <p>Não há posts para exibir.</p>}
                 </C.AdsUser>
 
                 {showModalUpdateAd && adSelected &&

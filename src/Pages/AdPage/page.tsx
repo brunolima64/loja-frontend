@@ -3,8 +3,8 @@ import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import * as C from "./styles";
 import { AdCtx } from "../../contexts/AdCtx";
-import { Ad } from "../../components/Ad";
 import { FormateDate } from "../../utils/FormateDate";
+import { AdHome } from "../../components/Ad";
 
 export const AdPage = () => {
     const adCtx = useContext(AdCtx);
@@ -100,7 +100,7 @@ export const AdPage = () => {
 
                 <C.OthersAds>
                     {adCtx?.others && adCtx?.others.map(item => (
-                        <Ad key={item._id} data={item} />
+                        <AdHome key={item._id} data={item} />
                     ))}
                 </C.OthersAds>
 

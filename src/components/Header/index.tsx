@@ -11,14 +11,14 @@ export const Header = () => {
     return (
         <C.HeaderContainer>
             <C.Header>
-                <Link to="/" onClick={() => adCtx?.setAd(null)}>
+                <Link to="/" onClick={() => adCtx?.setAd(undefined)}>
                     <C.Logo>Bazaar Shop</C.Logo>
                 </Link>
                 <C.Menu>
                     <ul>
                         {userCtx?.userLogged &&
                             <>
-                                <Link to={"/"} onClick={() => adCtx?.setAd(null)}>
+                                <Link to={"/"} onClick={() => adCtx?.setAd(undefined)}>
                                     <li>INICIO</li>
                                 </Link>
 

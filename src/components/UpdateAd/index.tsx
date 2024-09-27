@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { UserContext } from "../../contexts/UserContext";
 import { z } from "zod";
-import { AdType } from "../../types/AdType";
 import { AlertContext } from "../../contexts/AlertContext";
+import { Ad } from "../../types/Ad";
 
 const schemaAd = z.object({
     title: z.string().optional(),
@@ -26,8 +26,8 @@ const schemaAd = z.object({
 type AdChemaType = z.infer<typeof schemaAd>;
 
 type Props = {
-    item: AdType;
-    setAdSelected: (ad: AdType | undefined) => void;
+    item: Ad;
+    setAdSelected: (ad: Ad | undefined) => void;
     setShowModalUpdateAd: (b: boolean) => void;
 }
 export const UpdateAd = ({ item, setAdSelected, setShowModalUpdateAd }: Props) => {
@@ -88,13 +88,14 @@ export const UpdateAd = ({ item, setAdSelected, setShowModalUpdateAd }: Props) =
             images: data.images,
         }, token);
 
-        setIsLoading(false);
-
         // verifica se o item foi adicionado com sucesso e exibe um alert.
         if (!updatedAd) {
             alertCtx?.setAlertMsg("error");
+            console.log(updateAd)
+            setIsLoading(false);
         } else {
             alertCtx?.setAlertMsg("success");
+            setIsLoading(false);
         }
 
         setShowModalUpdateAd(false); // fecha o modal 

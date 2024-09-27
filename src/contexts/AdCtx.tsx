@@ -1,11 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { AdType } from "../types/AdType";
+import { Ad } from "../types/Ad";
 
 type AdCtxType = {
-    ad: AdType | undefined;
-    setAd: (it: any) => void;
-    others: AdType[] | undefined;
-    setOthers: (it: any) => void;
+    ad: Ad | undefined;
+    setAd: (it: Ad | undefined) => void;
+    others: Ad[] | undefined;
+    setOthers: (it: Ad[]) => void;
 }
 export const AdCtx = createContext<AdCtxType | null>(null);
 
@@ -13,13 +13,13 @@ type Props = { children: ReactNode; }
 
 export const AdCtxProvider = ({ children }: Props) => {
 
-    const [others, setOthers] = useState<AdType[] | undefined>(() => {
+    const [others, setOthers] = useState<Ad[] | undefined>(() => {
         // Recupera do local storage ao inicializar
         const others = localStorage.getItem('others');
         return others ? JSON.parse(others) : null;
     });
 
-    const [ad, setAd] = useState<AdType | undefined>(() => {
+    const [ad, setAd] = useState<Ad | undefined>(() => {
         // Recupera do local storage ao inicializar
         const ad = localStorage.getItem('ad');
         return ad ? JSON.parse(ad) : null;

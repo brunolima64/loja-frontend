@@ -14,8 +14,14 @@ export const Container = styled.div`
 export const InfoArea = styled.div`
 `;
 
-export const Image = styled.img`
+export const AreaImage = styled.div` 
     height: 250px;
+    width: 100%;
+    overflow: hidden;
+`;
+
+export const Image = styled.img`
+    height: 100%;
     width: 100%;
 `;
 

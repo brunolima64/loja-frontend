@@ -1,15 +1,24 @@
+import { Ad } from "../../types/Ad";
 import { FormatedPrice } from "../../utils/FormatedPrice";
 import * as C from "./styles";
 
 type Props = {
-    data: any;
+    data: Ad;
     showUpdateAd: (id: string) => void;
 }
 export const AdItem = ({ data, showUpdateAd }: Props) => {
 
     return (
         <C.Container>
-            <C.Image src={data.images[0].url} alt="" />
+            <C.AreaImage>
+                {data.images.map(it => (
+                    <C.Image
+                        key={data._id}
+                        src={it.default ? it.url : ""}
+                        alt=""
+                    />
+                ))}
+            </C.AreaImage>
             <C.Title>{data.title}</C.Title>
             <C.AreaDesc>
                 <p>Descrição: </p>

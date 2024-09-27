@@ -1,47 +1,83 @@
 import axios from "axios";
-import { AdType } from "../types/AdType";
-import { CreateAdType } from "../types/CreateAdType";
-import { UserType } from "../types/UserType";
+
+type UserReqType = {
+    _id?: string;
+    name?: string;
+    email?: string;
+    passwordHash?: string;
+    state?: string;
+    token?: string;
+}
+
+type AdReqtype = {
+    _id: string;
+    idUser?: string;
+    title?: string;
+    state?: string;
+    category?: string;
+    description?: string;
+    price?: number;
+    priceNeg?: boolean;
+    images?: FileList | undefined;
+    dateCreated?: string;
+    views?: number;
+    status?: string;
+    others?: object[];
+}
+
+type CreateAdType = {
+    idUser?: string;
+    title?: string;
+    state?: string;
+    category?: string;
+    description?: string;
+    price?: number;
+    priceNeg?: boolean;
+    images?: FileList | undefined;
+    status?: string;
+}
 
 const api = axios.create({
     baseURL: 'https://loja-backend-2-da6b.onrender.com'
 });
 
 export const getStates = async () => {
-    const res = await api.get("/state");
-    if (!res.data) return false;
-
-    return res.data;
+    try {
+        const res = await api.get("/state");
+        return res.data;
+    } catch (error) { return false; }
 }
 
 export const getCategories = async () => {
-    const res = await api.get("/category");
-    if (!res.data) return false;
-
-    return res.data;
+    try {
+        const res = await api.get("/category");
+        return res.data;
+    } catch (error) { return false; }
 }
 
-export const getAllAds = async (query: any) => {
-    const res = await api.get("/item", {
-        params: {
-            q: query.q,
-            skip: query.skip,
-            cat: query.cat,
-            sort: "asc",
-            limit: query.limit,
-            state: query.state
-        },
-    });
-    if (!res.data) return false;
+export const getAllAds = async (query?: any) => {
+    try {
+        const res = await api.get("/item", {
+            params: {
+                q: query?.q || "",
+                skip: query?.skip || 0,
+                cat: query?.cat || "",
+                sort: "asc",
+                limit: query?.limit || 10,
+                state: query?.state || ""
+            },
+        });
 
-    return res.data;
+        return res.data;
+
+    } catch (error) { return false; }
 }
 
 export const getOneAd = async (id: string) => {
-    const res = await api.get("/item/" + id)
-    if (!res.data) return false;
-
-    return res.data;
+    try {
+        const res = await api.get("/item/" + id);
+        return res.data;
+    } catch (error) { return false; }
 }
 
 export const createAd = async (data: CreateAdType, token: string) => {
@@ -63,18 +99,18 @@ export const createAd = async (data: CreateAdType, token: string) => {
         }
     }
 
-    const res = await api.post("/item", formData, {
-        headers: {
-            'authorization': token
-        }
-    })
+    try {
+        const res = await api.post("/item", formData, {
+            headers: {
+                'authorization': token
+            }
+        });
+        return res.data;
 
-    if (!res.data) return false;
-
-    return res.data;
+    } catch (error) { return false };
 }
 
-export const updateAd = async (data: AdType, token: string) => {
+export const updateAd = async (data: AdReqtype, token: string) => {
 
     const formData = new FormData();
 
@@ -87,56 +123,56 @@ export const updateAd = async (data: AdType, token: string) => {
     if (data.priceNeg) formData.append("priceNeg", data.priceNeg.toString());
 
     if (data.images) {
-        for (let i in data.images) {
+        for (let i = 0; i < data.images.length; i++) {
             formData.append(`images`, data.images[i]);
         }
     }
 
-    const res = await api.post(`/item/${data._id}`, formData, {
-        headers: {
-            'authorization': token
-        }
-    })
-    if (!res.data) return false;
+    try {
+        const res = await api.post(`/item/${data._id}`, formData, {
+            headers: {
+                'authorization': token
+            }
+        })
+        return res.data;
 
-    return await res.data;
+    } catch (error) { return false };
 }
 
-export const createUser = async (data: UserType) => {
-    const res = await api.post("https://loja-backend-2-da6b.onrender.com/signup/me", data);
-    if (!res.data) return false;
-
-    console.log("newUser: ", res.data);
-    return res.data;
+export const createUser = async (data: UserReqType) => {
+    try {
+        const res = await api.post("https://loja-backend-2-da6b.onrender.com/signup/me", data);
+        return res.data;
+    } catch (error) { return false; }
 }
 
-export const getUser = async (data: UserType) => {
-    const res = await api.post("https://loja-backend-2-da6b.onrender.com/signin/me", data);
-    if (!res.data) return false;
-
-    return res.data;
+export const getUser = async (data: UserReqType) => {
+    try {
+        const res = await api.post("https://loja-backend-2-da6b.onrender.com/signin/me", data);
+        return res.data;
+    } catch (error) { return false; }
 }
 
-export const updateUser = async (data: UserType, token: string) => {
-    const res = await api.put("/user/me/" + data._id, data, {
-        headers: {
-            'authorization': token
-        }
-    });
-    if (!res.data) return false;
-
-    return res.data;
+export const updateUser = async (data: UserReqType, token: string) => {
+    try {
+        const res = await api.put("/user/me/" + data._id, data, {
+            headers: {
+                'authorization': token
+            }
+        });
+        return res.data;
+    } catch (error) { return false; }
 }
 
 export const search = async (query: string) => {
-
-    const res = await api.get("/item", {
-        params: {
-            q: query,
-        }
-    });
-
-    return res.data;
+    try {
+        const res = await api.get("/item", {
+            params: {
+                q: query,
+            }
+        });
+        return res.data;
+    } catch (error) { return false; }
 }
 
 

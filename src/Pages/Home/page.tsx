@@ -3,19 +3,18 @@ import { CategoryItem } from "../../components/Category";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import * as C from "./styles";
-import { getAllAds, getCategories, getStates, search } from "../../Apis/api";
-import { AdType } from "../../types/AdType";
-import { Ad } from "../../components/Ad";
+import { getAllAds, getCategories, getStates } from "../../Apis/api";
 import { StateType } from "../../types/StateType";
+import { Ad } from "../../types/Ad";
+import { AdHome } from "../../components/Ad";
 
 export const Home = () => {
     const [categories, setCategories] = useState<CategoryType[]>([]);
     const [states, setStates] = useState<StateType[]>([]);
-    const [ads, setAds] = useState<AdType[]>([]);
-    const [adsViews, setAdsViews] = useState<AdType[]>([]);
+    const [ads, setAds] = useState<Ad[]>([]);
+    const [adsViews, setAdsViews] = useState<Ad[]>([]);
 
     const [showAds, setShowAds] = useState(false);
-    const [showFilter, setShowFilter] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const [searchField, setSearchField] = useState("");
@@ -124,7 +123,7 @@ export const Home = () => {
 
                         <C.AreaAds>
                             {adsViews.length > 0 && adsViews.map(item => (
-                                <Ad key={item._id} data={item} />
+                                <AdHome key={item._id} data={item} />
                             ))}
                         </C.AreaAds>
 
@@ -138,7 +137,7 @@ export const Home = () => {
 
                         <C.AreaAds>
                             {ads.map(item => (
-                                <Ad key={item._id} data={item} />
+                                <AdHome key={item._id} data={item} />
                             ))}
                         </C.AreaAds>
 

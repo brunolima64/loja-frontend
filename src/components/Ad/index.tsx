@@ -4,12 +4,12 @@ import * as C from "./styles";
 import { useContext, useEffect } from "react";
 import { AdCtx } from "../../contexts/AdCtx";
 import { getOneAd } from "../../Apis/api";
-import { AdType } from "../../types/AdType";
+import { Ad } from "../../types/Ad";
 
 type Props = {
-    data: AdType;
+    data: Ad;
 }
-export const Ad = ({ data }: Props) => {
+export const AdHome = ({ data }: Props) => {
     const AdContext = useContext(AdCtx);
     const navigate = useNavigate();
 
@@ -33,9 +33,9 @@ export const Ad = ({ data }: Props) => {
     return (
         <C.Container onClick={() => redirectForOneAd(data._id)}>
             <C.AreaImage>
-                {data.images?.map((it, i) => (
+                {data.images?.map(it => (
                     <C.Image
-                        key={i}
+                        key={data._id}
                         src={it.default === true ? it.url : ""}
                         alt=""
                     />

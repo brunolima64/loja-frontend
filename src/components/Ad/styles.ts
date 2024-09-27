@@ -18,6 +18,7 @@ export const Container = styled.div`
 export const AreaImage = styled.div` 
     height: 250px;
     width: 100%;
+    overflow: hidden;
 `;
 
 export const AreaInfo = styled.div`
@@ -27,7 +28,7 @@ export const AreaInfo = styled.div`
 
 export const Image = styled.img`
     height: 250px;
-    width: 100%;
+    width: 100%; 
 `;
 
 export const Info = styled.div``;
