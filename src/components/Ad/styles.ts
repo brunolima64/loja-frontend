@@ -13,12 +13,20 @@ export const Container = styled.div`
     &:hover {
         opacity: .7;
     }
+
+    @media (max-width: 540px) { 
+        width: 160px;   
+    }
+
+    @media (max-width: 335px) { 
+        width: 140px;   
+    }
 `;
 
 export const AreaImage = styled.div` 
-    height: 250px;
+    height: auto;
     width: 100%;
-    overflow: hidden;
+    overflow: hidden; 
 `;
 
 export const AreaInfo = styled.div`
@@ -27,7 +35,7 @@ export const AreaInfo = styled.div`
 `;
 
 export const Image = styled.img`
-    height: 250px;
+    height: auto;
     width: 100%; 
 `;
 
@@ -38,23 +46,9 @@ export const Title = styled.h3`
     text-align: left;
     margin: 10px 0;
 
-`;
-
-export const AreaDesc = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0;
-
-    p {
-        font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 5px;
+    @media (max-width: 630px) { 
+        font-size: 17px;
     }
-`;
-
-export const Desc = styled.p`
-    font-size: 15px; 
-    color: #959595;
 `;
 
 export const price = styled.p`
@@ -63,6 +57,10 @@ export const price = styled.p`
     margin-top: 30px; 
     text-align: end;
     color: blue;  
+
+    @media (max-width: 630px) { 
+        font-size: 14px; 
+    }
 `;
 
 export const State = styled.p`
@@ -74,6 +72,14 @@ export const State = styled.p`
         font-size: 14px;
         font-weight: 500; 
         color: #959595;
+    }
+
+    @media (max-width: 630px) { 
+        font-size: 14px; 
+
+        p {
+            font-size: 13px; 
+        }
     }
 `;
 
@@ -87,6 +93,14 @@ export const Category = styled.p`
         font-weight: 500; 
         color: #959595;
     }
+
+    @media (max-width: 630px) { 
+        font-size: 14px; 
+
+        p {
+            font-size: 13px; 
+        }
+    }
 `;
 
 export const Status = styled.p`
@@ -98,6 +112,14 @@ export const Status = styled.p`
         font-size: 14px;
         font-weight: 500; 
         color: #959595;
+    }
+
+    @media (max-width: 630px) { 
+        font-size: 14px; 
+
+        p {
+            font-size: 13px; 
+        }
     }
 `;
 

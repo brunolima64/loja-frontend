@@ -66,26 +66,28 @@ export const UserMe = () => {
                     <C.ButtonEditProfile onClick={showUpdateUser}>Editar usuario</C.ButtonEditProfile>
                 </C.InfoUser>
 
-                <h3>Meus posts: </h3>
+                <C.AdsUserArea>
+                    <h3>Meus posts: </h3>
 
-                <C.AdsUser>
-                    {adsUser && adsUser.map((it) => (
-                        <AdItem
-                            key={it._id}
-                            data={it}
-                            showUpdateAd={() => showUpdateAd(it._id)}
+                    <C.AdsUser>
+                        {adsUser && adsUser.map((it) => (
+                            <AdItem
+                                key={it._id}
+                                data={it}
+                                showUpdateAd={() => showUpdateAd(it._id)}
+                            />
+                        ))}
+                        {adsUser.length === 0 && <p>Não há posts para exibir.</p>}
+                    </C.AdsUser>
+
+                    {showModalUpdateAd && adSelected &&
+                        <UpdateAd
+                            item={adSelected}
+                            setAdSelected={setAdSelected}
+                            setShowModalUpdateAd={setShowModalUpdateAd}
                         />
-                    ))}
-                    {adsUser.length === 0 && <p>Não há posts para exibir.</p>}
-                </C.AdsUser>
-
-                {showModalUpdateAd && adSelected &&
-                    <UpdateAd
-                        item={adSelected}
-                        setAdSelected={setAdSelected}
-                        setShowModalUpdateAd={setShowModalUpdateAd}
-                    />
-                }
+                    }
+                </C.AdsUserArea>
             </C.Container>
             <Footer />
         </C.PageContainer>

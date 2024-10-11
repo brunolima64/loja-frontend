@@ -20,16 +20,18 @@ export const AdItem = ({ data, showUpdateAd }: Props) => {
                 ))}
             </C.AreaImage>
             <C.Title>{data.title}</C.Title>
-            <C.AreaDesc>
-                <p>Descrição: </p>
-                <C.Desc>{data.description}</C.Desc>
-            </C.AreaDesc>
+            {data.description !== "" &&
+                <C.AreaDesc>
+                    <p>Descrição: </p>
+                    <C.Desc>{data.description}</C.Desc>
+                </C.AreaDesc>
+            }
             <C.State>Estado: <p>{data.state}</p></C.State>
             <C.Category>Categoria: <p>{data.category}</p></C.Category>
             <C.Status>status: <p>{data.state}</p></C.Status>
             {data.priceNeg
                 ? <C.price>Negociável</C.price>
-                : <C.price>Preço: ${FormatedPrice(data.price)}</C.price>
+                : <C.price>Preço: {FormatedPrice(data.price)}</C.price>
             }
             <C.InfoArea>
                 <C.AreaBtn>

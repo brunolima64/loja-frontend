@@ -9,4 +9,8 @@ export const Footer = styled.header`
     justify-content: center;
     align-items: center;
     font-size: 15px;
+
+    @media (max-width: 480px) {
+        font-size: 13px;
+    }
 `;

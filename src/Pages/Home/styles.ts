@@ -24,6 +24,8 @@ export const Container = styled.section`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    align-items: center;
+    padding: 0px 15px;
 
     h2 {
         margin-top: 20px;
@@ -38,6 +40,10 @@ export const Container = styled.section`
             opacity: .8;
         }
     }
+
+    @media (max-width: 1000px) { 
+        width: 100%;
+    }
 `;
 
 export const Categories = styled.div`
@@ -48,16 +54,38 @@ export const Categories = styled.div`
     background-color: #fff;
     margin-top: 20px;
     border-radius: 10px;
-    padding: 30px;
+    padding: 30px; 
+
+    @media (max-width: 630px) { 
+        width: 320px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    @media (max-width: 430px) { 
+        padding: 5px; 
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 `;
 
 export const AreaAds = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    width: 100%;
+    width: auto;
     gap: 10px;
     margin: 10px 0px;
     animation: ${slideIn} 1s ease-out;
+    padding: 5px;
+
+    @media (max-width: 1000px) {  
+        grid-template-columns: repeat(3, 1fr); 
+    }
+
+    @media (max-width: 780px) {
+        grid-template-columns: repeat(2, 1fr); 
+    }
 `;
 
 export const Warning = styled.p`
@@ -65,7 +93,7 @@ export const Warning = styled.p`
 `;
 
 export const SearchArea = styled.div`
-    width: 1000px;
+    width: 100%;
     margin-top: 20px;
     padding: 10px 20px;
     border-radius: 10px;
@@ -73,8 +101,9 @@ export const SearchArea = styled.div`
     display: flex;
     align-items: center;
 
-    select {
-        
+    
+    @media (max-width: 430px) { 
+        padding: 10px 10px;
     }
 `;
 
@@ -83,6 +112,14 @@ export const Select = styled.select`
     margin-right: 10px;
     padding: 10px 15px;
     border-radius: 6px;
+
+    @media (max-width: 630px) { 
+        width: 70px; 
+    }
+
+    @media (max-width: 430px) { 
+        width: 40px; 
+    }
 `;
 
 export const Input = styled.input`
@@ -107,36 +144,21 @@ export const Button = styled.button`
     &:hover {
         opacity: .9;
     }
-`;
 
-export const ShowFilters = styled.div`
-    display: flex;
-    align-items: center;
-    margin: 30px 0;
-`;
-
-export const ShowFilter = styled.div` 
-    background-color: green;
-    color: white;
-    margin: 0px 10px;
-    padding: 0px 10px;
-    padding-bottom: 10px;
-    border-radius: 6px;
-    text-align: end;
-`;
-
-export const Back = styled.div` 
-    cursor: pointer;
-    margin: 5px 0;
-    width: 100%;  
+    @media (max-width: 430px) { 
+        padding: 10px 7px;
+    }
 `;
 
 export const ButtonArea = styled.div`
 display: flex;
-align-items: end;
-justify-content: end;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 margin-right: 5px;
 margin-top: 30px;
+width: 100%;
+gap: 20px;
 
 
     div {
@@ -146,4 +168,26 @@ margin-top: 30px;
         border-radius: 6px;
         cursor: pointer;
     }
+`;
+
+export const AreaTitle = styled.div` 
+    width: 100%;
+    padding: 0px 10px;
+
+    h2 {
+        text-align: left;
+        width: 100%;
+        font-size: 18px;
+    } 
+
+    @media (max-width: 480px) {
+        h2 {
+            font-size: 15px;
+        }
+    }
+`;
+
+
+export const AllAds = styled.div`
+    
 `;

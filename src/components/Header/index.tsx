@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import * as C from "./styles";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { AdCtx } from "../../contexts/AdCtx";
 
@@ -8,13 +8,33 @@ export const Header = () => {
     const adCtx = useContext(AdCtx);
     const userCtx = useContext(UserContext);
 
+    const [showMenuMobile, setShowMenuMobile] = useState(false);
+
+    const closedModal = () => {
+        setShowMenuMobile(false);
+    }
+
     return (
         <C.HeaderContainer>
             <C.Header>
                 <Link to="/" onClick={() => adCtx?.setAd(undefined)}>
                     <C.Logo>Bazaar Shop</C.Logo>
+
+                    {showMenuMobile &&
+                        <C.CloseModal onClick={closedModal}>Voltar</C.CloseModal>
+                    }
+
+                    {!showMenuMobile &&
+                        <C.MenuMobile onClick={() => setShowMenuMobile(true)}>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </C.MenuMobile>
+                    }
                 </Link>
-                <C.Menu>
+
+
+                <C.Menu variante={showMenuMobile}>
                     <ul>
                         {userCtx?.userLogged &&
                             <>

@@ -49,9 +49,13 @@ export const SignUp = () => {
                 passwordHash: data.password
             });
 
-            // save user and redirect for home.
-            userCtx?.setUserLogged(newUser.newUser);
-            navigate("/");
+            if (newUser.newUser !== undefined) {
+                // save user and redirect for home.
+                userCtx?.setUserLogged(newUser.newUser);
+                navigate("/");
+            } else {
+                alert(newUser.error);
+            }
         } else {
             setMessageErrorPassword("Senhas não batem, por favor verifique.");
         }

@@ -30,7 +30,7 @@ export const SignIn = () => {
             setMessageError("");
             navigate("/")
         } else {
-            setMessageError("Email ou senha inválidos");
+            setMessageError(user.error);
         }
 
         setIsLoading(false);

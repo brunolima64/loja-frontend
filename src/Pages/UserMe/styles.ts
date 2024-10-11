@@ -6,18 +6,26 @@ export const PageContainer = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column; 
+    overflow: hidden;
 `;
 
 export const Container = styled.div`
     width: 1000px;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
+    padding: 0px 15px;
+
+    @media (max-width: 1010px) {
+        width: 100%; 
+    }
 `;
 
 export const Title = styled.h1``;
 
 export const InfoUser = styled.div`
+    width: 100%; 
     display: flex;
     flex-direction: column;
     margin:  30px 0;
@@ -25,9 +33,20 @@ export const InfoUser = styled.div`
     background-color: #fff;
     border-radius: 10px;
     gap: 15px;
+
+    @media(max-width: 420px) {
+        h1 {
+            font-size: 22px;
+        } 
+
+        p {
+            font-size: 14px;
+        }
+    }
 `;
 
 export const InfoArea = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 3px;
@@ -56,9 +75,26 @@ cursor: pointer;
 }
 `;
 
+export const AdsUserArea = styled.div`
+     @media(max-width: 420px) {
+        h3 {
+            font-size: 18px;
+        }
+    } 
+`;
+
 export const AdsUser = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin: 30px 0;
+
+    
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+
+    @media(max-width: 780px) {
+        grid-template-columns: repeat(2, 1fr); 
+    }
 `;

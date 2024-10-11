@@ -94,15 +94,19 @@ export const AdPage = () => {
                     </C.Right>
                 </C.ProdInfos>
 
-                {adCtx?.others && adCtx?.others.length > 0 &&
-                    <h2>Outras ofertas do mesmo vendedor:</h2>
-                }
+                <C.OthersArea>
+                    {adCtx?.others && adCtx?.others.length > 0 &&
+                        <C.AreaTitle>
+                            <h2>Outras ofertas do mesmo vendedor:</h2>
+                        </C.AreaTitle>
+                    }
 
-                <C.OthersAds>
-                    {adCtx?.others && adCtx?.others.map(item => (
-                        <AdHome key={item._id} data={item} />
-                    ))}
-                </C.OthersAds>
+                    <C.OthersAds>
+                        {adCtx?.others && adCtx?.others.map(item => (
+                            <AdHome key={item._id} data={item} />
+                        ))}
+                    </C.OthersAds>
+                </C.OthersArea>
 
 
             </C.Container>

@@ -23,4 +23,15 @@ export const Container = styled.div`
     &:hover {
         opacity: .8;
     }
+
+    @media (max-width: 430px) { 
+        img {
+            width: 40px;
+            height: 40px; 
+        }
+
+        p { 
+            font-size: 13px;
+        }
+    }
 `;

@@ -117,47 +117,55 @@ export const Home = () => {
                     ))}
                 </C.Categories>
 
-                {!showAds && adsViews.length > 0 &&
-                    <>
-                        <h2>Anúncios mais visualizados</h2>
+                <C.AllAds>
+                    {!showAds && adsViews.length > 0 &&
+                        <>
+                            <C.AreaTitle>
+                                <h2>Anúncios mais visualizados</h2>
+                            </C.AreaTitle>
 
-                        <C.AreaAds>
-                            {adsViews.length > 0 && adsViews.map(item => (
-                                <AdHome key={item._id} data={item} />
-                            ))}
-                        </C.AreaAds>
+                            <C.AreaAds>
+                                {adsViews.length > 0 && adsViews.map(item => (
+                                    <AdHome key={item._id} data={item} />
+                                ))}
+                            </C.AreaAds>
 
-                        <h2 onClick={() => setShowAds(true)}>Ver todos</h2>
-                    </>
-                }
+                            <C.AreaTitle>
+                                <h2 onClick={() => setShowAds(true)}>Ver todos</h2>
+                            </C.AreaTitle>
+                        </>
+                    }
 
-                {showAds &&
-                    <>
-                        <h2 onClick={() => setShowAds(false)}>Ver menos</h2>
+                    {showAds &&
+                        <>
+                            {ads.length !== 0 &&
+                                <C.AreaTitle>
+                                    <h2 onClick={() => setShowAds(false)}>Ver menos</h2>
+                                </C.AreaTitle>}
 
-                        <C.AreaAds>
-                            {ads.map(item => (
-                                <AdHome key={item._id} data={item} />
-                            ))}
-                        </C.AreaAds>
+                            <C.AreaAds>
+                                {ads.map(item => (
+                                    <AdHome key={item._id} data={item} />
+                                ))}
+                            </C.AreaAds>
 
-                        {ads.length > 9 &&
-                            <C.ButtonArea>
-                                <C.Button onClick={() => setLimit(limit + 10)}>Ver mais</C.Button>
-                            </C.ButtonArea>
-                        }
-
-                        {ads.length === 0 &&
-                            <>
-                                <p>Nenhum anúncio corresponde ao filtro.</p>
+                            {ads.length > 9 &&
                                 <C.ButtonArea>
-                                    <C.Button onClick={clearFilter}>Limpar filtro</C.Button>
+                                    <C.Button onClick={() => setLimit(limit + 10)}>Ver mais</C.Button>
                                 </C.ButtonArea>
-                            </>
-                        }
-                    </>
-                }
+                            }
 
+                            {ads.length === 0 &&
+                                <>
+                                    <C.ButtonArea>
+                                        <p>Nenhum anúncio corresponde ao filtro.</p>
+                                        <C.Button onClick={clearFilter}>Limpar filtro</C.Button>
+                                    </C.ButtonArea>
+                                </>
+                            }
+                        </>
+                    }
+                </C.AllAds>
             </C.Container>
             <Footer />
         </C.PageContainer >
