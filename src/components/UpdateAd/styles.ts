@@ -40,6 +40,15 @@ export const InfoArea = styled.div`
         padding: 10px 0;
         margin-bottom: 10px; 
     }
+
+    @media(max-width: 640px) {
+        width: 97%;    
+        padding: 15px;
+        
+        h2 {
+            font-size: 17px;
+        }
+    }
 `;
 
 export const Form = styled.form`
@@ -62,6 +71,16 @@ export const Form = styled.form`
         outline: none;
         border: 1px solid gray;
         width: 150px;
+    }
+
+    @media(max-width: 640px) {
+        input {
+            font-size: 13px;
+        }
+
+        select {
+            font-size: 13px;
+        }
     }
 `;
 
@@ -88,6 +107,9 @@ export const Check = styled.div`
         cursor: pointer;
     }
 
+    @media(max-width: 640px) {
+        font-size: 14px;
+    }
 `;
 
 export const BtnArea = styled.div`
@@ -110,6 +132,10 @@ export const BtnArea = styled.div`
             opacity: .8; 
             box-shadow: 1px 1px 10px blue;
         }
+    }
+
+    @media(max-width: 640px) {
+        width: 100%;  
     }
 `;
 

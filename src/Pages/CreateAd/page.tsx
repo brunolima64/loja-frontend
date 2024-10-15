@@ -101,7 +101,6 @@ export const CreateAd = () => {
 
     return (
         <C.PageContainer>
-            <Header />
             <C.Container>
                 <h2>Adicionar novo post:</h2>
                 <C.Form onSubmit={handleSubmit(formSubmit)}>
@@ -178,7 +177,6 @@ export const CreateAd = () => {
                     </C.BtnArea>
                 </C.Form>
             </C.Container>
-            <Footer />
         </C.PageContainer>
     )
 }

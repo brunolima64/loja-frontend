@@ -6,7 +6,7 @@ export const PageContainer = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column; 
-    overflow: hidden;
+    overflow: auto;
 `;
 
 export const Container = styled.div`
@@ -76,6 +76,8 @@ cursor: pointer;
 `;
 
 export const AdsUserArea = styled.div`
+    width: auto; 
+
      @media(max-width: 420px) {
         h3 {
             font-size: 18px;
@@ -96,5 +98,23 @@ export const AdsUser = styled.div`
 
     @media(max-width: 780px) {
         grid-template-columns: repeat(2, 1fr); 
+    }
+`;
+
+export const Warning = styled.div`
+    width: 100%;
+    text-align: left;
+    
+    p {
+        margin-top: 10px;
+    }
+
+    @media(max-width: 480px) {
+        h3 {
+            font-size: 14px;
+        }
+        p {
+            font-size: 13px;
+        }
     }
 `;

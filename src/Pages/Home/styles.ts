@@ -12,17 +12,16 @@ const slideIn = keyframes`
 `;
 
 export const PageContainer = styled.div`
-    width: 100vw;
+    width: 100vw; 
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: column; 
 `;
 
 export const Container = styled.section`
-    width: 1000px;
-    display: flex;
-    justify-content: center;
+    width: 1000px;  
+    display: flex; 
     flex-direction: column;
     align-items: center;
     padding: 0px 15px;
@@ -41,8 +40,8 @@ export const Container = styled.section`
         }
     }
 
-    @media (max-width: 1000px) { 
-        width: 100%;
+    @media (max-width: 1070px) { 
+        width: 90%;
     }
 `;
 
@@ -71,7 +70,7 @@ export const Categories = styled.div`
 `;
 
 export const AreaAds = styled.div`
-    display: grid;
+    display: grid; 
     grid-template-columns: repeat(4, 1fr);
     width: auto;
     gap: 10px;
@@ -79,7 +78,7 @@ export const AreaAds = styled.div`
     animation: ${slideIn} 1s ease-out;
     padding: 5px;
 
-    @media (max-width: 1000px) {  
+    @media (max-width: 1070px) {  
         grid-template-columns: repeat(3, 1fr); 
     }
 
@@ -108,18 +107,10 @@ export const SearchArea = styled.div`
 `;
 
 export const Select = styled.select`
-    width: 100px;
+    width: auto;
     margin-right: 10px;
     padding: 10px 15px;
-    border-radius: 6px;
-
-    @media (max-width: 630px) { 
-        width: 70px; 
-    }
-
-    @media (max-width: 430px) { 
-        width: 40px; 
-    }
+    border-radius: 6px; 
 `;
 
 export const Input = styled.input`
@@ -188,6 +179,4 @@ export const AreaTitle = styled.div`
 `;
 
 
-export const AllAds = styled.div`
-    
-`;
+export const AllAds = styled.div``;

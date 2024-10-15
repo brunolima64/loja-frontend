@@ -7,6 +7,8 @@ import { getAllAds, getCategories, getStates } from "../../Apis/api";
 import { StateType } from "../../types/StateType";
 import { Ad } from "../../types/Ad";
 import { AdHome } from "../../components/Ad";
+import { SkeletonAd } from "../../components/Skeletons/SkeletonAd";
+import { SkeletonCat } from "../../components/Skeletons/SkeletonCat";
 
 export const Home = () => {
     const [categories, setCategories] = useState<CategoryType[]>([]);
@@ -22,6 +24,8 @@ export const Home = () => {
     const [catFilter, setCatFilter] = useState("");
 
     const [limit, setLimit] = useState(10);
+
+    const [showSkeleton, setShowSkeleton] = useState(true);
 
     useEffect(() => {
         const getCats = async () => {
@@ -64,7 +68,9 @@ export const Home = () => {
         res.ads.sort((a: sortAds, b: sortAds) => b.views - a.views);
 
         for (let i = 0; i < 4; i++) {
-            adsPlusViews.push(res.ads[i]);
+            if (i < res.ads.length) {
+                adsPlusViews.push(res.ads[i]);
+            }
         }
         setAdsViews(adsPlusViews);
     }
@@ -77,6 +83,10 @@ export const Home = () => {
         await getAds(); // load ads filtered 
 
         setIsLoading(false);
+
+        setTimeout(() => {
+            setShowSkeleton(false);
+        }, 2000)
     }
 
     const clearFilter = () => {
@@ -85,9 +95,7 @@ export const Home = () => {
 
     return (
         <C.PageContainer>
-            <Header />
             <C.Container>
-
                 <C.SearchArea>
                     <C.Input
                         type="search"
@@ -103,19 +111,41 @@ export const Home = () => {
                         ))}
                     </C.Select>
 
-                    <C.Button onClick={filterAds}>{!isLoading ? "Pesquisar" : "Pesquisando..."}</C.Button>
+                    <C.Button onClick={filterAds}>{!isLoading ? "Buscar" : "Buscando..."}</C.Button>
                 </C.SearchArea>
 
-                <C.Categories>
-                    {categories.map((item, i) => (
-                        <CategoryItem
-                            key={i}
-                            data={item}
-                            catSelected={catFilter}
-                            setCatSelected={() => setCatFilter(item.name)}
-                        />
-                    ))}
-                </C.Categories>
+                {categories.length === 0 &&
+                    <C.Categories>
+                        <SkeletonCat />
+                        <SkeletonCat />
+                        <SkeletonCat />
+                        <SkeletonCat />
+                        <SkeletonCat />
+                    </C.Categories>
+                }
+
+                {categories.length > 0 &&
+                    <C.Categories>
+                        {categories.map((item, i) => (
+                            <CategoryItem
+                                key={i}
+                                data={item}
+                                catSelected={catFilter}
+                                setCatSelected={() => setCatFilter(item.name)}
+                            />
+                        ))}
+                    </C.Categories>
+                }
+
+                {adsViews.length === 0 && ads.length === 0 && showSkeleton &&
+                    <C.AreaAds>
+                        <SkeletonAd />
+                        <SkeletonAd />
+                        <SkeletonAd />
+                        <SkeletonAd />
+                        <SkeletonAd />
+                    </C.AreaAds>
+                }
 
                 <C.AllAds>
                     {!showAds && adsViews.length > 0 &&
@@ -125,8 +155,11 @@ export const Home = () => {
                             </C.AreaTitle>
 
                             <C.AreaAds>
-                                {adsViews.length > 0 && adsViews.map(item => (
-                                    <AdHome key={item._id} data={item} />
+                                {adsViews.length > 0 && adsViews.map((item) => (
+                                    <AdHome
+                                        key={item && item._id}
+                                        data={item}
+                                    />
                                 ))}
                             </C.AreaAds>
 
@@ -156,18 +189,15 @@ export const Home = () => {
                             }
 
                             {ads.length === 0 &&
-                                <>
-                                    <C.ButtonArea>
-                                        <p>Nenhum anúncio corresponde ao filtro.</p>
-                                        <C.Button onClick={clearFilter}>Limpar filtro</C.Button>
-                                    </C.ButtonArea>
-                                </>
+                                <C.ButtonArea>
+                                    <p>Nenhum anúncio corresponde ao filtro.</p>
+                                    <C.Button onClick={clearFilter}>Limpar filtro</C.Button>
+                                </C.ButtonArea>
                             }
                         </>
                     }
                 </C.AllAds>
             </C.Container>
-            <Footer />
         </C.PageContainer >
     )
 }

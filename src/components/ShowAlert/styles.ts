@@ -21,6 +21,11 @@ export const Container = styled.div`
     justify-content: center; 
     position: fixed;
     z-index: 1001;
+
+    @media(max-width: 480px) {
+        bottom: 10px;
+        right: 10px;
+    }
 `;
 export const Alert = styled.div<alertMsg>`
     width: 300px;

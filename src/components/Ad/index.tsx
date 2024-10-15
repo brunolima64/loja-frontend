@@ -32,30 +32,34 @@ export const AdHome = ({ data }: Props) => {
 
     return (
         <C.Container onClick={() => redirectForOneAd(data._id)}>
-            <C.AreaImage>
-                {data.images?.map(it => (
-                    <C.Image
-                        key={data._id}
-                        src={it.default === true ? it.url : ""}
-                        alt=""
-                    />
-                ))}
-            </C.AreaImage>
-            <C.AreaInfo>
-                <C.Title>{data.title}</C.Title>
+            {data &&
+                <>
+                    <C.AreaImage>
+                        {data.images?.map(it => (
+                            <C.Image
+                                key={data._id}
+                                src={it.default === true ? it.url : ""}
+                                alt=""
+                            />
+                        ))}
+                    </C.AreaImage>
+                    <C.AreaInfo>
+                        <C.Title>{data.title}</C.Title>
 
-                <C.Info>
-                    <C.State>Estado: <p>{data.state}</p></C.State>
-                    <C.Category>Categoria: <p>{data.category}</p></C.Category>
-                    <C.Status>status: <p> Disponivel</p></C.Status>
-                </C.Info>
+                        <C.Info>
+                            <C.State>Estado: <p>{data.state}</p></C.State>
+                            <C.Category>Categoria: <p>{data.category}</p></C.Category>
+                            <C.Status>status: <p> Disponivel</p></C.Status>
+                        </C.Info>
 
-                {data.priceNeg
-                    ? <C.price>Negociável</C.price>
-                    : <C.price>{FormatedPrice(data.price)}</C.price>
-                }
+                        {data.priceNeg
+                            ? <C.price>Negociável</C.price>
+                            : <C.price>{FormatedPrice(data.price)}</C.price>
+                        }
 
-            </C.AreaInfo>
+                    </C.AreaInfo>
+                </>
+            }
         </C.Container >
     )
 }

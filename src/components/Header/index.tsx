@@ -19,7 +19,9 @@ export const Header = () => {
             <C.Header>
                 <Link to="/" onClick={() => adCtx?.setAd(undefined)}>
                     <C.Logo>Bazaar Shop</C.Logo>
+                </Link>
 
+                <C.AreaMenuMobile>
                     {showMenuMobile &&
                         <C.CloseModal onClick={closedModal}>Voltar</C.CloseModal>
                     }
@@ -31,7 +33,8 @@ export const Header = () => {
                             <div></div>
                         </C.MenuMobile>
                     }
-                </Link>
+                </C.AreaMenuMobile>
+
 
 
                 <C.Menu variante={showMenuMobile}>
@@ -71,7 +74,6 @@ export const Header = () => {
                                 </Link>
                             </>
                         }
-
                     </ul>
                 </C.Menu>
             </C.Header>

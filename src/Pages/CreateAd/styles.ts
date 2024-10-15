@@ -9,7 +9,7 @@ export const PageContainer = styled.div`
 `;
 
 export const Container = styled.div`
-    width: 600px; 
+    width: 600px;  
     display: flex;
     justify-content: center; 
     flex-direction: column;
@@ -22,6 +22,16 @@ export const Container = styled.div`
         border-bottom: 1px solid #bebebe;
         padding: 10px 0;
         margin-bottom: 10px; 
+    }
+
+    @media(max-width: 640px) {
+        width: 97%;    
+        padding: 20px;
+        margin: 20px 0px;
+
+        h2 {
+            font-size: 17px;
+        }
     }
 `;
 
@@ -45,6 +55,18 @@ export const Form = styled.form`
         outline: none;
         border: 1px solid gray;
         width: 150px;
+    }
+
+    @media(max-width: 640px) {
+        gap: 10px;
+        
+        input {
+            font-size: 13px;
+        }
+
+        select {
+            font-size: 13px;
+        }  
     }
 `;
 
@@ -71,6 +93,9 @@ export const Check = styled.div`
         cursor: pointer;
     }
 
+    @media(max-width: 640px) {
+        font-size: 14px;
+    }
 `;
 
 export const BtnArea = styled.div`
@@ -90,6 +115,13 @@ export const BtnArea = styled.div`
 
         &:hover{
             opacity: .8;
+        }
+    }
+    @media(max-width: 640px) {
+        width: 100%;  
+
+        .button {
+            width: auto;
         }
     }
 `;

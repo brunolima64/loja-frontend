@@ -8,6 +8,7 @@ import { AdItem } from "../../components/AdUser";
 import { UpdateAd } from "../../components/UpdateAd";
 import { UpdateUser } from "../../components/UpdateUser";
 import { Ad } from "../../types/Ad";
+import { SkeletonAd } from "../../components/Skeletons/SkeletonAd";
 
 export const UserMe = () => {
     const userCtx = useContext(UserContext);
@@ -24,15 +25,18 @@ export const UserMe = () => {
     const [showModalUpdateAd, setShowModalUpdateAd] = useState(false);
 
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+    const [showSkeleton, setShowSkeleton] = useState(true);
 
     useEffect(() => {
         const getMyAds = async () => {
             const res = await getAllAds();
             let adsFiltered = res.ads.filter((it: any) => it.idUser === userCtx?.userLogged._id);
+
             setAdsUser(adsFiltered);
             setShowModalUpdateAd(true);
         }
         getMyAds();
+        controllerSkeleton();
     }, [adSelected]);
 
     const showUpdateAd = (id: string) => {
@@ -44,9 +48,15 @@ export const UserMe = () => {
         setShowModalUpdateUser(true);
     }
 
+    // Remove Skeleton
+    const controllerSkeleton = () => {
+        setTimeout(() => {
+            setShowSkeleton(false);
+        }, 3000);
+    }
+
     return (
         <C.PageContainer>
-            <Header />
             {showModalUpdateUser &&
                 <UpdateUser
                     setShowModalUpdateUser={setShowModalUpdateUser}
@@ -66,30 +76,49 @@ export const UserMe = () => {
                     <C.ButtonEditProfile onClick={showUpdateUser}>Editar usuario</C.ButtonEditProfile>
                 </C.InfoUser>
 
-                <C.AdsUserArea>
-                    <h3>Meus posts: </h3>
-
+                {showSkeleton &&
                     <C.AdsUser>
-                        {adsUser && adsUser.map((it) => (
-                            <AdItem
-                                key={it._id}
-                                data={it}
-                                showUpdateAd={() => showUpdateAd(it._id)}
-                            />
-                        ))}
-                        {adsUser.length === 0 && <p>Não há posts para exibir.</p>}
+                        <SkeletonAd />
+                        <SkeletonAd />
+                        <SkeletonAd />
+                        <SkeletonAd />
+                        <SkeletonAd />
                     </C.AdsUser>
+                }
 
-                    {showModalUpdateAd && adSelected &&
-                        <UpdateAd
-                            item={adSelected}
-                            setAdSelected={setAdSelected}
-                            setShowModalUpdateAd={setShowModalUpdateAd}
-                        />
-                    }
-                </C.AdsUserArea>
+
+
+                {adsUser.length > 0 &&
+                    <C.AdsUserArea>
+                        <h3>Meus posts: </h3>
+                        <C.AdsUser>
+                            {adsUser && adsUser.map((it) => (
+                                <AdItem
+                                    key={it._id}
+                                    data={it}
+                                    showUpdateAd={() => showUpdateAd(it._id)}
+                                />
+                            ))}
+                            {adsUser.length === 0 && <p>Não há posts para exibir.</p>}
+                        </C.AdsUser>
+
+                        {showModalUpdateAd && adSelected &&
+                            <UpdateAd
+                                item={adSelected}
+                                setAdSelected={setAdSelected}
+                                setShowModalUpdateAd={setShowModalUpdateAd}
+                            />
+                        }
+                    </C.AdsUserArea>
+                }
+
+                {adsUser.length === 0 &&
+                    <C.Warning>
+                        <h3>Meus posts: </h3>
+                        <p>Não há posts para exibir.</p>
+                    </C.Warning>
+                }
             </C.Container>
-            <Footer />
         </C.PageContainer>
     )
 }

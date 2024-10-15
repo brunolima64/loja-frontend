@@ -75,7 +75,7 @@ export const UpdateAd = ({ item, setAdSelected, setShowModalUpdateAd }: Props) =
     // formulario 
     const formSubmit = async (data: AdChemaType) => {
         setIsLoading(true);
-        const token = userCtx?.userLogged.token;
+        const token = userCtx?.userLogged.token || "";
 
         const updatedAd = await updateAd({
             _id: item._id,

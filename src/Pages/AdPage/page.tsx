@@ -42,7 +42,6 @@ export const AdPage = () => {
 
     return (
         <C.PageContainer>
-            <Header />
             <C.Container>
                 <C.ProdInfos>
                     {adCtx.ad &&
@@ -110,7 +109,6 @@ export const AdPage = () => {
 
 
             </C.Container>
-            <Footer />
         </C.PageContainer>
     )
 }

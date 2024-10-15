@@ -11,6 +11,10 @@ align-items: center;
 export const FormArea = styled.div`
 background-color: #fff;
 border-radius: 10px;
+
+@media(max-width: 520px) {
+    width: 95%;
+}
 `;
 
 export const Title = styled.h2`
@@ -20,6 +24,11 @@ export const Title = styled.h2`
     width: 100%; 
     padding: 30px; 
     color: #fff;
+
+    @media(max-width: 520px) {
+        font-size: 20px;
+        padding: 20px; 
+    }
 `;
 
 export const Form = styled.form`
@@ -42,6 +51,16 @@ a {
         color: #f98465;
     }
 }
+
+@media(max-width: 520px) {
+    width: 100%;
+    padding: 20px;
+    margin: 20px 0;
+
+    a {
+        font-size: 13px;
+    }
+}
 `;
 
 export const Input = styled.input`
@@ -52,6 +71,10 @@ padding: 10px 15px;
 border-bottom: 1px solid #a0a0a0;
 margin-top: 20px;
 margin-bottom: 5px;
+
+@media(max-width: 520px) {
+    font-size: 13px;
+}
 `;
 
 
@@ -73,6 +96,14 @@ export const ButtonArea = styled.div`
 
         &:hover {
             opacity: .8;
+        }
+    }
+
+    @media(max-width: 520px) {
+
+        .btn {
+            width: auto;
+            font-size: 13px;
         }
     }
 `;

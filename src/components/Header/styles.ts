@@ -9,8 +9,7 @@ export const HeaderContainer = styled.header`
     height: 70px;
     background-color: #fff;
     display: flex;
-    justify-content: center; 
-
+    justify-content: center;   
 `;
 
 export const Header = styled.div`
@@ -37,7 +36,10 @@ export const Header = styled.div`
     } 
 `;
 
-export const Logo = styled.div`
+export const Logo = styled.div` 
+    width: 100px;
+    text-align: center;
+    
     @media (max-width: 814px) {  
         font-size: 14px;
     }
@@ -56,10 +58,15 @@ export const CloseModal = styled.div`
 `;
 
 export const Menu = styled.nav<showMenu>`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
     ul {
         display: flex;
+        align-items: center;   
 
-        li {
+        li {   
             list-style: none;
             margin-left: 10px;
             padding: 10px 20px;
@@ -76,7 +83,7 @@ export const Menu = styled.nav<showMenu>`
             }
         }
 
-        .post {
+        .post { 
             background-color: #f35038;
             color: #fff;
             border-radius: 6px;
@@ -103,8 +110,7 @@ export const Menu = styled.nav<showMenu>`
 `;
 
 export const MenuMobile = styled.div` 
-    display: none;
-
+    display: none; 
     flex-direction: column;
     justify-content: space-around;
     width: 50px;
@@ -117,6 +123,14 @@ export const MenuMobile = styled.div`
         width: 100%;
     } 
 
+    @media (max-width: 622px) {  
+        display: flex;
+    }
+`;
+
+export const AreaMenuMobile = styled.div` 
+    display: none;   
+ 
     @media (max-width: 622px) {  
         display: flex;
     }
